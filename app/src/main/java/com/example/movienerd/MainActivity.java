@@ -1,47 +1,69 @@
 package com.example.movienerd;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.movienerd.RecyclerView.CardAdapter;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
-    private CardAdapter adapter;
-    private RecyclerView recyclerView;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.activity_main);
 
-        setRecyclerView(this);
+        Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
-    private void setRecyclerView(final Activity activity) {
-        recyclerView = activity.findViewById(R.id.recycler_view);
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_home:
+                Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
+                break;
+            case R.id.nav_watchList:
+                Utilities.insertFragment(this, new WatchListFragment(), WatchListFragment.class.getSimpleName());
+                break;
+        }
 
-        //set GridLayoutManager in recyclerView and show items in grid with two columns
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        recyclerView.setHasFixedSize(true);
-        List<String> list = new ArrayList<>();
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        list.add("ic_android_black_24");
-        adapter = new CardAdapter(list, activity);
-        recyclerView.setAdapter(adapter);
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 }

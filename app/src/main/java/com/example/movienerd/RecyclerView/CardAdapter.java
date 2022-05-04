@@ -1,17 +1,25 @@
 package com.example.movienerd.RecyclerView;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.movienerd.R;
+import com.example.movienerd.Utilities;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
@@ -36,12 +44,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
         String currentImagePath = cardItemList.get(position);
 
-        Drawable drawable = ContextCompat.getDrawable(activity, activity.getResources()
-                .getIdentifier(currentImagePath, "drawable", activity.getPackageName()));
-
-        System.out.println(drawable);
-
-        holder.filmImage.setImageDrawable(drawable);
+        Glide.with(activity)
+                .load(currentImagePath)
+                .into(holder.filmImage);
     }
 
     @Override
