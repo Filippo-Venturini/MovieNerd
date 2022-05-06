@@ -28,7 +28,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
     private Activity activity;
 
-    public CardAdapter(List<String> cardItemList, Activity activity){
+    private  OnItemListener listener;
+
+    public CardAdapter(OnItemListener listener, List<String> cardItemList, Activity activity){
+        this.listener = listener;
         this.cardItemList = cardItemList;
         this.activity = activity;
     }
@@ -37,7 +40,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
-        return new CardViewHolder(layoutView);
+        return new CardViewHolder(layoutView, listener);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.movienerd.RecyclerView.CardAdapter;
+import com.example.movienerd.RecyclerView.OnItemListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnItemListener {
 
     private static final String LOG = "Home-Fragment";
 
@@ -39,6 +41,7 @@ public class HomeFragment extends Fragment {
     private  RequestQueue requestQueue;
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
     private List<String> topFilmImagesURLs = new LinkedList<>();
+    private List<Film> filmsList = new LinkedList<>();
 
     @Nullable
     @Override
@@ -51,6 +54,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstance);
         final Activity activity = getActivity();
         if(activity != null){
+            Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
             requestQueue = Volley.newRequestQueue(activity);
             this.sendVolleyRequest(activity);
 
@@ -74,8 +78,9 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         List<String> list = new ArrayList<>();
         list.addAll(topFilmImagesURLs);
-
-        adapter = new CardAdapter(list, activity);
+        Log.d("PROVA", filmsList.toString());
+        final OnItemListener listener = this;
+        adapter = new CardAdapter(listener, list, activity);
         recyclerView.setAdapter(adapter);
     }
 
@@ -89,6 +94,8 @@ public class HomeFragment extends Fragment {
                     JSONArray films = response.getJSONArray("items"); //Prende l'array di film
 
                     for(int i=0; i < 20; i++){
+                        filmsList.add(new Film((String) films.getJSONObject(i).get("id"),
+                                (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image")));
                         topFilmImagesURLs.add((String) films.getJSONObject(i).get("image"));
                     }
 
@@ -107,5 +114,14 @@ public class HomeFragment extends Fragment {
 
         jsonObjectRequest.setTag(TOP_FILM_REQUEST_TAG);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Log.d(LOG, String.valueOf(position));
+        Activity activity = getActivity();
+        if(activity != null){
+            Utilities.insertFragment((AppCompatActivity) activity, new DetailsFragment(filmsList.get(position)), DetailsFragment.class.getSimpleName());
+        }
     }
 }

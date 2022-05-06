@@ -10,6 +10,12 @@
         <item android:id="@+id/nav_watchList"
             android:icon="@drawable/ic_android_black_24"
             android:title="WatchList"/>
+        <item android:id="@+id/nav_watchedMovies"
+            android:icon="@drawable/ic_android_black_24"
+            android:title="Watched Movies"/>
+        <item android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_android_black_24"
+            android:title="Profile"/>
     </group>
 
 
