@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -40,7 +41,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     private  RequestQueue requestQueue;
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
-    private List<String> topFilmImagesURLs = new LinkedList<>();
     private List<Film> filmsList = new LinkedList<>();
 
     @Nullable
@@ -74,13 +74,11 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private void setRecyclerView(final Activity activity) {
         recyclerView = activity.findViewById(R.id.recycler_view);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 2));
-        recyclerView.setHasFixedSize(true);
-        List<String> list = new ArrayList<>();
-        list.addAll(topFilmImagesURLs);
-        Log.d("PROVA", filmsList.toString());
+       /* recyclerView.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 3));
+        recyclerView.setHasFixedSize(true);*/
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemListener listener = this;
-        adapter = new CardAdapter(listener, list, activity);
+        adapter = new CardAdapter(listener, filmsList, activity);
         recyclerView.setAdapter(adapter);
     }
 
@@ -95,8 +93,8 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
                     for(int i=0; i < 20; i++){
                         filmsList.add(new Film((String) films.getJSONObject(i).get("id"),
-                                (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image")));
-                        topFilmImagesURLs.add((String) films.getJSONObject(i).get("image"));
+                                (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image"),
+                                (String) films.getJSONObject(i).get("year")));
                     }
 
                     setRecyclerView(activity);

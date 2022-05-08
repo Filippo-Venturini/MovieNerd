@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.movienerd.Film;
 import com.example.movienerd.R;
 import com.example.movienerd.Utilities;
 
@@ -24,13 +25,13 @@ import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
-    private List<String> cardItemList;
+    private List<Film> cardItemList;
 
     private Activity activity;
 
     private  OnItemListener listener;
 
-    public CardAdapter(OnItemListener listener, List<String> cardItemList, Activity activity){
+    public CardAdapter(OnItemListener listener, List<Film> cardItemList, Activity activity){
         this.listener = listener;
         this.cardItemList = cardItemList;
         this.activity = activity;
@@ -45,11 +46,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        String currentImagePath = cardItemList.get(position);
+        Film current  = cardItemList.get(position);
 
         Glide.with(activity)
-                .load(currentImagePath)
+                .load(current.getUrlPosterImg())
                 .into(holder.filmImage);
+
+        holder.title.setText(current.getTitle());
+        holder.year.setText(current.getYear());
     }
 
     @Override

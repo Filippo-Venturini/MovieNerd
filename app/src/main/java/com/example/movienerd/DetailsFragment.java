@@ -52,11 +52,4 @@ public class DetailsFragment extends Fragment {
             Log.e(LOG, "Activity is null");
         }
     }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        menu.findItem(R.id.app_bar_search).setVisible(false);
-    }
 }

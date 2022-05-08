@@ -3,15 +3,26 @@ package com.example.movienerd;
 public class Film {
     private String id;
 
-    private String name;
+    private String title;
 
     private String urlPreviewImg;
 
     private String urlPosterImg;
 
-    public Film(String id, String name, String urlPosterImg){
+    private String year;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public Film(String id, String title, String urlPosterImg, String year){
         this.id = id;
-        this.name = name;
+        this.title = title;
+        this.year = year;
         this.urlPosterImg = urlPosterImg;
     }
 
