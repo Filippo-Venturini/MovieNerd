@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,14 +20,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.movienerd.RecyclerView.CardAdapter;
-import com.example.movienerd.RecyclerView.OnItemListener;
+import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
+import com.example.movienerd.FilmRecyclerView.OnItemListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     private static final String LOG = "Home-Fragment";
 
-    private CardAdapter adapter;
+    private FilmCardAdapter adapter;
     private RecyclerView recyclerView;
 
     private  RequestQueue requestQueue;
@@ -78,7 +76,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         recyclerView.setHasFixedSize(true);*/
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemListener listener = this;
-        adapter = new CardAdapter(listener, filmsList, activity);
+        adapter = new FilmCardAdapter(listener, filmsList, activity);
         recyclerView.setAdapter(adapter);
     }
 

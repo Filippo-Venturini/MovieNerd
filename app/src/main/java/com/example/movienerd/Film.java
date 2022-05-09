@@ -26,6 +26,8 @@ public class Film {
         this.urlPosterImg = urlPosterImg;
     }
 
+    public String getId(){return this.id;}
+
     public String getUrlPreviewImg() {
         return urlPreviewImg;
     }

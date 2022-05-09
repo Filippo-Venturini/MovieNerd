@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         android:layout_marginTop="?attr/actionBarSize"
-        tools:listitem="@layout/card_layout"
+        tools:listitem="@layout/film_card_layout"
         android:orientation="horizontal"
         android:layout_marginVertical="200dp"/>
 

@@ -1,29 +1,20 @@
-package com.example.movienerd.RecyclerView;
+package com.example.movienerd.FilmRecyclerView;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movienerd.Film;
 import com.example.movienerd.R;
-import com.example.movienerd.Utilities;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
-public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
+public class FilmCardAdapter extends RecyclerView.Adapter<FilmCardViewHolder> {
 
     private List<Film> cardItemList;
 
@@ -31,7 +22,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
     private  OnItemListener listener;
 
-    public CardAdapter(OnItemListener listener, List<Film> cardItemList, Activity activity){
+    public FilmCardAdapter(OnItemListener listener, List<Film> cardItemList, Activity activity){
         this.listener = listener;
         this.cardItemList = cardItemList;
         this.activity = activity;
@@ -39,13 +30,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
     @NonNull
     @Override
-    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
-        return new CardViewHolder(layoutView, listener);
+    public FilmCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.film_card_layout, parent, false);
+        return new FilmCardViewHolder(layoutView, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FilmCardViewHolder holder, int position) {
         Film current  = cardItemList.get(position);
 
         Glide.with(activity)
