@@ -1,14 +1,25 @@
 package com.example.movienerd;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName="film")
 public class Film {
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "film_id")
     private String id;
 
+    @ColumnInfo(name = "film_title")
     private String title;
 
+    @ColumnInfo(name = "film_urlPreviewImg")
     private String urlPreviewImg;
 
+    @ColumnInfo(name = "film_urlPosterImg")
     private String urlPosterImg;
 
+    @ColumnInfo(name = "film_year")
     private String year;
 
     public String getTitle() {
