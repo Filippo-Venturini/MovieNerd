@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
 import com.example.movienerd.FilmRecyclerView.OnItemListener;
+import com.example.movienerd.ViewModels.ListViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +45,8 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private  RequestQueue requestQueue;
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
     private List<Film> filmsList = new LinkedList<>();
+
+    private ListViewModel listViewModel;
 
     @Nullable
     @Override
@@ -76,7 +83,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         recyclerView.setHasFixedSize(true);*/
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemListener listener = this;
-        adapter = new FilmCardAdapter(listener, filmsList, activity);
+        adapter = new FilmCardAdapter(listener, activity);
         recyclerView.setAdapter(adapter);
     }
 
@@ -87,15 +94,24 @@ public class HomeFragment extends Fragment implements OnItemListener {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
+
+                    setRecyclerView(activity);
+                    listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+                    listViewModel.getFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+                        @Override
+                        public void onChanged(List<Film> films) {
+                            adapter.setData(films);
+                        }
+                    });
+
                     JSONArray films = response.getJSONArray("items"); //Prende l'array di film
 
                     for(int i=0; i < 20; i++){
-                        filmsList.add(new Film((String) films.getJSONObject(i).get("id"),
+                        listViewModel.addFilm(new Film((String) films.getJSONObject(i).get("id"),
                                 (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image"),
                                 (String) films.getJSONObject(i).get("year")));
                     }
-
-                    setRecyclerView(activity);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -114,10 +130,10 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     @Override
     public void onItemClick(int position) {
-        Log.d(LOG, String.valueOf(position));
         Activity activity = getActivity();
         if(activity != null){
-            Utilities.insertFragment((AppCompatActivity) activity, new DetailsFragment(filmsList.get(position)), DetailsFragment.class.getSimpleName());
+            Utilities.insertFragment((AppCompatActivity) activity, new DetailsFragment(adapter.getFilmSelected(position)), DetailsFragment.class.getSimpleName());
+            listViewModel.setFilmSelected(adapter.getFilmSelected(position));
         }
     }
 }

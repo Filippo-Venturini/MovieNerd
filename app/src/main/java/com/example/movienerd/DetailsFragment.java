@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.movienerd.ActorRecyclerView.ActorCardAdapter;
 import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
+import com.example.movienerd.ViewModels.ListViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +47,10 @@ public class DetailsFragment extends Fragment {
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
     private final static  String FILM_REQUEST_TAG = "FILM_REQUEST_TAG";
+
+    private TextView titleTextView;
+    private ImageView filmImageView;
+    private ImageView previewImageView;
 
     public DetailsFragment(Film film){
         this.film = film;
@@ -65,14 +73,24 @@ public class DetailsFragment extends Fragment {
             requestQueue = Volley.newRequestQueue(activity);
             sendVolleyRequest(activity, view);
             Utilities.setUpToolbar((AppCompatActivity) activity, "FILM DETAILS");
-            Glide.with(activity)
-                    .load(film.getUrlPosterImg())
-                    .into((ImageView) view.findViewById(R.id.film_imageView));
-            Glide.with(activity)
-                    .load(previewUrl)
-                    .into((ImageView) view.findViewById(R.id.preview_imageView));
-            TextView title = view.findViewById(R.id.title_textView);
-            title.setText(film.getTitle());
+
+            titleTextView = view.findViewById(R.id.title_textView);
+            filmImageView = view.findViewById(R.id.film_imageView);
+            previewImageView = view.findViewById(R.id.preview_imageView);
+
+            ListViewModel listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+            listViewModel.getFilmSelected().observe(getViewLifecycleOwner(), new Observer<Film>() {
+                @Override
+                public void onChanged(Film film) {
+                    Glide.with(activity)
+                            .load(film.getUrlPosterImg())
+                            .into(filmImageView);
+                    Glide.with(activity)
+                            .load(previewUrl)
+                            .into(previewImageView);
+                    titleTextView.setText(film.getTitle());
+                }
+            });
         }else{
             Log.e(LOG, "Activity is null");
         }

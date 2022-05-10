@@ -1,5 +1,6 @@
 package com.example.movienerd;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,6 +9,7 @@ import androidx.room.PrimaryKey;
 public class Film {
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "film_id")
+    @NonNull
     private String id;
 
     @ColumnInfo(name = "film_title")
