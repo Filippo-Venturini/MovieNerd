@@ -5,13 +5,13 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_home"
-            android:icon="@drawable/ic_android_black_24"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="Home"/>
         <item android:id="@+id/nav_watchList"
-            android:icon="@drawable/ic_android_black_24"
+            android:icon="@drawable/ic_baseline_remove_red_eye_24"
             android:title="WatchList"/>
         <item android:id="@+id/nav_watchedMovies"
-            android:icon="@drawable/ic_android_black_24"
+            android:icon="@drawable/ic_baseline_local_movies_24"
             android:title="Watched Movies"/>
         <item android:id="@+id/nav_profile"
             android:icon="@drawable/ic_android_black_24"

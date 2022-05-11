@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.movienerd.ActorRecyclerView.ActorCardAdapter;
 import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
 import com.example.movienerd.ViewModels.ListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +41,7 @@ import java.util.List;
 public class DetailsFragment extends Fragment {
 
     private static final String LOG = "DETAILS";
-    private Film film;
+    private Film currentFilm;
     private List<Actor> actorsList = new LinkedList<>();
 
     private ActorCardAdapter adapter;
@@ -51,9 +52,10 @@ public class DetailsFragment extends Fragment {
     private TextView titleTextView;
     private ImageView filmImageView;
     private ImageView previewImageView;
+    private FloatingActionButton fabAdd;
 
     public DetailsFragment(Film film){
-        this.film = film;
+        this.currentFilm = film;
     }
 
     @Nullable
@@ -77,6 +79,9 @@ public class DetailsFragment extends Fragment {
             titleTextView = view.findViewById(R.id.title_textView);
             filmImageView = view.findViewById(R.id.film_imageView);
             previewImageView = view.findViewById(R.id.preview_imageView);
+            fabAdd = view.findViewById(R.id.fab_add);
+
+
 
             ListViewModel listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
             listViewModel.getFilmSelected().observe(getViewLifecycleOwner(), new Observer<Film>() {
@@ -89,6 +94,13 @@ public class DetailsFragment extends Fragment {
                             .load(previewUrl)
                             .into(previewImageView);
                     titleTextView.setText(film.getTitle());
+                }
+            });
+
+            fabAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listViewModel.addFilmToWatchList(currentFilm);
                 }
             });
         }else{
@@ -107,7 +119,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void sendVolleyRequest(Activity activity, View view){
-        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.film.getId();
+        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getId();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

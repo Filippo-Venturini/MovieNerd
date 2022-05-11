@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
     }
 
     private void setRecyclerView(final Activity activity) {
-        recyclerView = activity.findViewById(R.id.recycler_view);
+        recyclerView = activity.findViewById(R.id.home_recycler_view);
 
        /* recyclerView.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 3));
         recyclerView.setHasFixedSize(true);*/
@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
                     setRecyclerView(activity);
                     listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
-                    listViewModel.getFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+                    listViewModel.getHomeFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                         @Override
                         public void onChanged(List<Film> films) {
                             adapter.setData(films);
@@ -106,9 +106,10 @@ public class HomeFragment extends Fragment implements OnItemListener {
                     });
 
                     JSONArray films = response.getJSONArray("items"); //Prende l'array di film
+                    listViewModel.clearHomeList();
 
                     for(int i=0; i < 20; i++){
-                        listViewModel.addFilm(new Film((String) films.getJSONObject(i).get("id"),
+                        listViewModel.addHomeFilm(new Film((String) films.getJSONObject(i).get("id"),
                                 (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image"),
                                 (String) films.getJSONObject(i).get("year")));
                     }
