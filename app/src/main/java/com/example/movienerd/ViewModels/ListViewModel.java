@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.movienerd.Database.FilmRepository;
 import com.example.movienerd.Film;
 
 import java.util.ArrayList;
@@ -15,10 +16,13 @@ import java.util.List;
 public class ListViewModel extends AndroidViewModel {
     private final MutableLiveData<Film> filmSelected = new MutableLiveData<>();
     public  MutableLiveData<List<Film>> homeFilms;
-    public MutableLiveData<List<Film>> watchList = new MutableLiveData<>();
+    private  final FilmRepository repository;
+    private LiveData<List<Film>> watchList;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
+        repository = new FilmRepository(application);
+        watchList = repository.getFilmList();
     }
 
     public  MutableLiveData<Film> getFilmSelected(){
@@ -37,19 +41,11 @@ public class ListViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Film>> getWatchList(){
-        if(watchList == null){
-            watchList = new MutableLiveData<>();
-        }
         return watchList;
     }
 
     public void addFilmToWatchList(Film film){
-        ArrayList<Film> list = new ArrayList<>();
-        list.add(film);
-        if(watchList.getValue() != null){
-            list.addAll(watchList.getValue());
-        }
-        watchList.setValue(list);
+        repository.addFilm(film);
     }
 
     public void addHomeFilm(Film film){

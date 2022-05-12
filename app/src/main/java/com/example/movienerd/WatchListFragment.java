@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.toolbox.Volley;
 import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
+import com.example.movienerd.FilmRecyclerView.GridItemDecorator;
 import com.example.movienerd.FilmRecyclerView.OnItemListener;
 import com.example.movienerd.FilmRecyclerView.SimpleCardAdapter;
 import com.example.movienerd.ViewModels.ListViewModel;
@@ -44,11 +45,12 @@ public class WatchListFragment extends Fragment implements OnItemListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final Activity activity = getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
             Utilities.setUpToolbar((AppCompatActivity) activity, "WATCH LIST");
 
             setRecyclerView(activity);
+
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
             listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                 @Override
@@ -64,7 +66,9 @@ public class WatchListFragment extends Fragment implements OnItemListener {
     private void setRecyclerView(final Activity activity) {
         RecyclerView recyclerView = activity.findViewById(R.id.watchList_recyclerView);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(activity, 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, 3));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new GridItemDecorator(3,10,false));
         final OnItemListener listener = this;
         adapter = new SimpleCardAdapter(listener, activity);
         recyclerView.setAdapter(adapter);
