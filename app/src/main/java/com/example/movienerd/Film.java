@@ -24,6 +24,9 @@ public class Film {
     @ColumnInfo(name = "film_year")
     private String year;
 
+    @ColumnInfo(name="film_vote")
+    private String vote;
+
     public String getTitle() {
         return title;
     }
@@ -32,14 +35,19 @@ public class Film {
         return year;
     }
 
-    public Film(String id, String title, String urlPosterImg, String year){
+    public Film(String id, String title, String urlPosterImg, String year, String vote){
         this.id = id;
         this.title = title;
         this.year = year;
         this.urlPosterImg = urlPosterImg;
+        this.vote = vote;
     }
 
     public String getId(){return this.id;}
+
+    public String getVote() {
+        return vote;
+    }
 
     public String getUrlPreviewImg() {
         return urlPreviewImg;

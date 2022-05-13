@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +30,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.movienerd.ActorRecyclerView.ActorCardAdapter;
-import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
 import com.example.movienerd.ViewModels.ListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -52,7 +54,17 @@ public class DetailsFragment extends Fragment {
     private TextView titleTextView;
     private ImageView filmImageView;
     private ImageView previewImageView;
+    private TextView voteTextView;
     private FloatingActionButton fabAdd;
+    private FloatingActionButton fabWatchList;
+    private FloatingActionButton fabWatched;
+
+    private Animation rotateOpen;
+    private Animation rotateClose;
+    private Animation fromBottom;
+    private Animation toBottom;
+
+    private boolean clicked = false;
 
     public DetailsFragment(Film film){
         this.currentFilm = film;
@@ -69,18 +81,23 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final Activity activity = getActivity();
 
-        String previewUrl = "https://imdb-api.com/images/original/MV5BMTM0NjUxMDk5MF5BMl5BanBnXkFtZTcwNDMxNDY3Mw@@._V1_Ratio1.5000_AL_.jpg";
-
         if(activity != null){
             requestQueue = Volley.newRequestQueue(activity);
             sendVolleyRequest(activity, view);
             Utilities.setUpToolbar((AppCompatActivity) activity, "FILM DETAILS");
 
             titleTextView = view.findViewById(R.id.title_textView);
+            voteTextView = view.findViewById(R.id.vote_textView);
             filmImageView = view.findViewById(R.id.film_imageView);
             previewImageView = view.findViewById(R.id.preview_imageView);
             fabAdd = view.findViewById(R.id.fab_add);
+            fabWatchList = view.findViewById(R.id.fab_watchList);
+            fabWatched = view.findViewById(R.id.fab_watched);
 
+            rotateOpen = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotate_open_anim);
+            rotateClose = AnimationUtils.loadAnimation(this.getActivity(), R.anim.rotate_close_anim);
+            fromBottom = AnimationUtils.loadAnimation(this.getActivity(), R.anim.from_bottom_anim);
+            toBottom = AnimationUtils.loadAnimation(this.getActivity(), R.anim.to_bottom_anim);
 
 
             ListViewModel listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
@@ -90,16 +107,40 @@ public class DetailsFragment extends Fragment {
                     Glide.with(activity)
                             .load(film.getUrlPosterImg())
                             .into(filmImageView);
-                    Glide.with(activity)
-                            .load(previewUrl)
-                            .into(previewImageView);
                     titleTextView.setText(film.getTitle());
+                    voteTextView.setText(film.getVote());
                 }
             });
 
             fabAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(!clicked){
+                        fabWatched.setVisibility(View.VISIBLE);
+                        fabWatchList.setVisibility(View.VISIBLE);
+                        fabWatched.startAnimation(fromBottom);
+                        fabWatchList.startAnimation(fromBottom);
+                        fabAdd.startAnimation(rotateOpen);
+                        fabWatched.setClickable(true);
+                        fabWatchList.setClickable(true);
+                        clicked = true;
+                    }else{
+                        fabWatched.setVisibility(View.INVISIBLE);
+                        fabWatchList.setVisibility(View.INVISIBLE);
+                        fabWatched.startAnimation(toBottom);
+                        fabWatchList.startAnimation(toBottom);
+                        fabAdd.startAnimation(rotateClose);
+                        fabWatched.setClickable(false);
+                        fabWatchList.setClickable(false);
+                        clicked = false;
+                    }
+                }
+            });
+
+            fabWatchList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
                     listViewModel.addFilmToWatchList(currentFilm);
                 }
             });
@@ -119,20 +160,29 @@ public class DetailsFragment extends Fragment {
     }
 
     private void sendVolleyRequest(Activity activity, View view){
-        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getId();
+        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getId()+"/Images";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
+                    String previewUrl = (String) response.getJSONObject("images").getJSONArray("items").getJSONObject(0).get("image");
+
+                    Glide.with(activity)
+                            .load(previewUrl)
+                            .into(previewImageView);
+
                     JSONArray actors = response.getJSONArray("actorList");
                     TextView director = view.findViewById(R.id.director_TextView);
+                    TextView description = view.findViewById(R.id.descriptionTextView);
+                    description.setText((String)response.get("plot"));
                     director.setText((String)response.getJSONArray("directorList").getJSONObject(0).get("name"));
                     for(int i=0; i < actors.length(); i++){
                         actorsList.add(new Actor((String) actors.getJSONObject(i).get("name"),(String) actors.getJSONObject(i).get("asCharacter"),
                                 (String) actors.getJSONObject(i).get("image")));
                     }
-                    System.out.println(actorsList);
+
                     setRecyclerView(activity);
 
                 } catch (JSONException e) {

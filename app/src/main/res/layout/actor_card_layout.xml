@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:clickable="true"
+    android:clickable="false"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="0dp">
@@ -18,9 +18,9 @@
 
         <ImageView
             android:id="@+id/actor_imageView"
-            android:layout_width="128dp"
-            android:layout_height="176dp"
-            android:background="@color/purple_500"
+            android:layout_width="81dp"
+            android:layout_height="122dp"
+            android:background="@android:color/transparent"
             android:contentDescription="actor"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />

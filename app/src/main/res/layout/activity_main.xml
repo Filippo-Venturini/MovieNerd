@@ -24,7 +24,7 @@
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/toolbar"
             android:elevation="4dp"
-            android:background="#546e7a"/>
+            android:background="#819ca9"/>
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
@@ -36,5 +36,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:id="@+id/nav_view"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/drawer_menu"
+        android:background="#546e7a"/>
 </androidx.drawerlayout.widget.DrawerLayout>

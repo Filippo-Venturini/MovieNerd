@@ -111,7 +111,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
                     for(int i=0; i < 20; i++){
                         listViewModel.addHomeFilm(new Film((String) films.getJSONObject(i).get("id"),
                                 (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image"),
-                                (String) films.getJSONObject(i).get("year")));
+                                (String) films.getJSONObject(i).get("year"), (String) films.getJSONObject(i).get("imDbRating")));
                     }
 
                 } catch (JSONException e) {
