@@ -27,6 +27,12 @@ public class Film {
     @ColumnInfo(name="film_vote")
     private String vote;
 
+    @ColumnInfo(name="isInWatchlist")
+    private boolean isInWatchlist;
+
+    @ColumnInfo(name="isWatched")
+    private boolean isWatched;
+
     public String getTitle() {
         return title;
     }
@@ -63,5 +69,21 @@ public class Film {
 
     public void setUrlPosterImg(String urlPosterImg) {
         this.urlPosterImg = urlPosterImg;
+    }
+
+    public boolean isInWatchlist() {
+        return isInWatchlist;
+    }
+
+    public void setInWatchlist(boolean inWatchlist) {
+        isInWatchlist = inWatchlist;
+    }
+
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
     }
 }

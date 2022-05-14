@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_watchList:
                 Utilities.insertFragment(this, new WatchListFragment(), WatchListFragment.class.getSimpleName());
                 break;
+            case R.id.nav_watchedMovies:
+                Utilities.insertFragment(this, new WatchedFilmsFragment(), WatchedFilmsFragment.class.getSimpleName());
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

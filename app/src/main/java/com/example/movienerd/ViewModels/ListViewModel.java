@@ -18,11 +18,13 @@ public class ListViewModel extends AndroidViewModel {
     public  MutableLiveData<List<Film>> homeFilms;
     private  final FilmRepository repository;
     private LiveData<List<Film>> watchList;
+    private LiveData<List<Film>> watchedFilms;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
         repository = new FilmRepository(application);
-        watchList = repository.getFilmList();
+        watchList = repository.getWatchList();
+        watchedFilms = repository.getWatchedFilms();
     }
 
     public  MutableLiveData<Film> getFilmSelected(){
@@ -44,7 +46,11 @@ public class ListViewModel extends AndroidViewModel {
         return watchList;
     }
 
-    public void addFilmToWatchList(Film film){
+    public LiveData<List<Film>> getWatchedFilms(){
+        return watchedFilms;
+    }
+
+    public void addFilm(Film film){
         repository.addFilm(film);
     }
 

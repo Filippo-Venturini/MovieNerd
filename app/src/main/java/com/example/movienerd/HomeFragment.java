@@ -79,8 +79,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private void setRecyclerView(final Activity activity) {
         recyclerView = activity.findViewById(R.id.home_recycler_view);
 
-       /* recyclerView.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 3));
-        recyclerView.setHasFixedSize(true);*/
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemListener listener = this;
         adapter = new FilmCardAdapter(listener, activity);

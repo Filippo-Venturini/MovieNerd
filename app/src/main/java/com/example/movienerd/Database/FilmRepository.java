@@ -10,16 +10,22 @@ import java.util.List;
 
 public class FilmRepository {
     private FilmDAO filmDAO;
-    private LiveData<List<Film>> filmList;
+    private LiveData<List<Film>> watchlist;
+    private LiveData<List<Film>> watchedFilms;
 
     public FilmRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
         filmDAO = db.filmDAO();
-        filmList = filmDAO.getFilms();
+        watchlist = filmDAO.getWatchList();
+        watchedFilms = filmDAO.getWatchedFilms();
     }
 
-    public LiveData<List<Film>> getFilmList(){
-        return filmList;
+    public LiveData<List<Film>> getWatchList(){
+        return watchlist;
+    }
+
+    public LiveData<List<Film>> getWatchedFilms(){
+        return watchedFilms;
     }
 
     public void addFilm(Film film){

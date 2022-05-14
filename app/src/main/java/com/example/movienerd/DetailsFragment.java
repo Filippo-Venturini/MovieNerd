@@ -141,7 +141,18 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
-                    listViewModel.addFilmToWatchList(currentFilm);
+                    currentFilm.setInWatchlist(true);
+                    listViewModel.addFilm(currentFilm);
+                }
+            });
+
+            fabWatched.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(activity, "Added to Watched Movies", Toast.LENGTH_SHORT).show();
+                    currentFilm.setInWatchlist(false);
+                    currentFilm.setWatched(true);
+                    listViewModel.addFilm(currentFilm);
                 }
             });
         }else{
