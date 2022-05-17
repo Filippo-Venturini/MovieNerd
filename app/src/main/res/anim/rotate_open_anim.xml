@@ -9,5 +9,11 @@
         android:toDegrees="45"
         android:duration="300"/>
 
+    <scale
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="0.8"
+        android:toYScale="0.8"/>
+
 
 </set>

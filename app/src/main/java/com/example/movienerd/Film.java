@@ -24,6 +24,9 @@ public class Film {
     @ColumnInfo(name = "film_year")
     private String year;
 
+    @ColumnInfo(name = "film_duration")
+    private String duration;
+
     @ColumnInfo(name="film_vote")
     private String vote;
 
@@ -67,9 +70,11 @@ public class Film {
         return urlPosterImg;
     }
 
-    public void setUrlPosterImg(String urlPosterImg) {
-        this.urlPosterImg = urlPosterImg;
+    public String getDuration() {
+        return duration;
     }
+
+    public void setDuration(String duration){this.duration = duration;}
 
     public boolean isInWatchlist() {
         return isInWatchlist;

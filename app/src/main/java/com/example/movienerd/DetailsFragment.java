@@ -55,6 +55,8 @@ public class DetailsFragment extends Fragment {
     private ImageView filmImageView;
     private ImageView previewImageView;
     private TextView voteTextView;
+    private TextView yearTextView;
+    private TextView durationTextView;
     private FloatingActionButton fabAdd;
     private FloatingActionButton fabWatchList;
     private FloatingActionButton fabWatched;
@@ -90,6 +92,8 @@ public class DetailsFragment extends Fragment {
             voteTextView = view.findViewById(R.id.vote_textView);
             filmImageView = view.findViewById(R.id.film_imageView);
             previewImageView = view.findViewById(R.id.preview_imageView);
+            yearTextView = view.findViewById(R.id.textView_Year);
+            durationTextView = view.findViewById(R.id.textView_Duration);
             fabAdd = view.findViewById(R.id.fab_add);
             fabWatchList = view.findViewById(R.id.fab_watchList);
             fabWatched = view.findViewById(R.id.fab_watched);
@@ -109,6 +113,7 @@ public class DetailsFragment extends Fragment {
                             .into(filmImageView);
                     titleTextView.setText(film.getTitle());
                     voteTextView.setText(film.getVote());
+                    yearTextView.setText(film.getYear());
                 }
             });
 
@@ -163,8 +168,6 @@ public class DetailsFragment extends Fragment {
     private void setRecyclerView(final Activity activity) {
         recyclerView = activity.findViewById(R.id.actors_recyclerView);
 
-       /* recyclerView.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 3));
-        recyclerView.setHasFixedSize(true);*/
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         adapter = new ActorCardAdapter(actorsList, activity);
         recyclerView.setAdapter(adapter);
@@ -183,6 +186,8 @@ public class DetailsFragment extends Fragment {
                     Glide.with(activity)
                             .load(previewUrl)
                             .into(previewImageView);
+
+                    durationTextView.setText((String) response.get("runtimeMins")+" mins");
 
                     JSONArray actors = response.getJSONArray("actorList");
                     TextView director = view.findViewById(R.id.director_TextView);
