@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     private  RequestQueue requestQueue;
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
-    private List<Film> filmsList = new LinkedList<>();
 
     private ListViewModel listViewModel;
 
@@ -57,12 +56,17 @@ public class HomeFragment extends Fragment implements OnItemListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
         super.onViewCreated(view, savedInstance);
-        final Activity activity = getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
             Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
-            requestQueue = Volley.newRequestQueue(activity);
-            this.sendVolleyRequest(activity);
-
+            if(!activity.homeAPIRequestDone){
+                requestQueue = Volley.newRequestQueue(activity);
+                this.sendVolleyRequest(activity);
+                activity.homeAPIRequestDone = true;
+            }else{
+                setRecyclerView(activity);
+                setHomeViewModel(activity);
+            }
         }else{
             Log.e(LOG, "Activity is null");
         }
@@ -85,6 +89,17 @@ public class HomeFragment extends Fragment implements OnItemListener {
         recyclerView.setAdapter(adapter);
     }
 
+    private void setHomeViewModel(Activity activity){
+        listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+        listViewModel.getHomeFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+            @Override
+            public void onChanged(List<Film> films) {
+                adapter.setData(films);
+            }
+        });
+
+    }
+
     private void sendVolleyRequest(Activity activity){
         String url = "https://imdb-api.com/en/API/Top250Movies/k_4ej6zo7h";
 
@@ -92,16 +107,8 @@ public class HomeFragment extends Fragment implements OnItemListener {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
-
                     setRecyclerView(activity);
-                    listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
-                    listViewModel.getHomeFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
-                        @Override
-                        public void onChanged(List<Film> films) {
-                            adapter.setData(films);
-                        }
-                    });
+                    setHomeViewModel(activity);
 
                     JSONArray films = response.getJSONArray("items"); //Prende l'array di film
                     listViewModel.clearHomeList();

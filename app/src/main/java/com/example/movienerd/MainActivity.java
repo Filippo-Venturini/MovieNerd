@@ -16,6 +16,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    public boolean homeAPIRequestDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
