@@ -94,6 +94,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         listViewModel.getHomeFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
             @Override
             public void onChanged(List<Film> films) {
+                Log.d(LOG,"Prova");
                 adapter.setData(films);
             }
         });
