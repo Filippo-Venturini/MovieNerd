@@ -47,6 +47,7 @@ public class WatchListFragment extends Fragment implements OnItemListener {
         super.onViewCreated(view, savedInstanceState);
         final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
+            setHasOptionsMenu(true);
             Utilities.setUpToolbar((AppCompatActivity) activity, "WATCH LIST");
 
             setRecyclerView(activity);
@@ -72,6 +73,12 @@ public class WatchListFragment extends Fragment implements OnItemListener {
         final OnItemListener listener = this;
         adapter = new SimpleCardAdapter(listener, activity);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.findItem(R.id.action_search).setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

@@ -20,7 +20,7 @@
             android:id="@+id/film_imageView"
             android:layout_width="128dp"
             android:layout_height="176dp"
-            android:background="@color/purple_500"
+            android:background="@android:color/transparent"
             android:contentDescription="film"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />

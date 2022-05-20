@@ -18,7 +18,7 @@ import com.example.movienerd.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleCardAdapter  extends RecyclerView.Adapter<SimpleCardViewHolder> {
+public class SimpleCardAdapter extends RecyclerView.Adapter<SimpleCardViewHolder> {
     private Activity activity;
 
     private  OnItemListener listener;
@@ -35,14 +35,12 @@ public class SimpleCardAdapter  extends RecyclerView.Adapter<SimpleCardViewHolde
     @NonNull
     @Override
     public SimpleCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        System.out.println("CREATE VIEWHOLDER");
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.simple_card_layout, parent, false);
         return new SimpleCardViewHolder(layoutView, listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SimpleCardViewHolder holder, int position) {
-        System.out.println("BIND");
         Film current  = filmList.get(position);
 
         Glide.with(activity)

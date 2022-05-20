@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -84,6 +86,7 @@ public class DetailsFragment extends Fragment {
         final Activity activity = getActivity();
 
         if(activity != null){
+            setHasOptionsMenu(true);
             requestQueue = Volley.newRequestQueue(activity);
             sendVolleyRequest(activity, view);
             Utilities.setUpToolbar((AppCompatActivity) activity, "FILM DETAILS");
@@ -214,6 +217,12 @@ public class DetailsFragment extends Fragment {
 
         jsonObjectRequest.setTag(FILM_REQUEST_TAG);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.findItem(R.id.action_search).setVisible(false);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
