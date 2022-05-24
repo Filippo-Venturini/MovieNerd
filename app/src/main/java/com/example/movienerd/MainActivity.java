@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Utilities.insertFragment((AppCompatActivity) activity, new SearchFragment(), SearchFragment.class.getSimpleName());
+                Utilities.insertFragment((AppCompatActivity) activity, new SearchFragment(query), SearchFragment.class.getSimpleName());
                 return false;
             }
 

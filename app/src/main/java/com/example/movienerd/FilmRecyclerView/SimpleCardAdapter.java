@@ -54,7 +54,6 @@ public class SimpleCardAdapter extends RecyclerView.Adapter<SimpleCardViewHolder
 
         final FilmDiffCallback diffCallback = new FilmDiffCallback(this.filmList, list);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-        System.out.println(diffResult.toString());
         diffResult.dispatchUpdatesTo(this);
         notifyDataSetChanged();
     }

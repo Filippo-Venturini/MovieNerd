@@ -16,6 +16,7 @@ import java.util.List;
 public class ListViewModel extends AndroidViewModel {
     private final MutableLiveData<Film> filmSelected = new MutableLiveData<>();
     public  MutableLiveData<List<Film>> homeFilms;
+    public  MutableLiveData<List<Film>> searchedFilms;
     private  final FilmRepository repository;
     private LiveData<List<Film>> watchList;
     private LiveData<List<Film>> watchedFilms;
@@ -42,6 +43,13 @@ public class ListViewModel extends AndroidViewModel {
         return homeFilms;
     }
 
+    public LiveData<List<Film>> getSearchedFilms(){
+        if(searchedFilms == null){
+            searchedFilms = new MutableLiveData<>();
+        }
+        return searchedFilms;
+    }
+
     public LiveData<List<Film>> getWatchList(){
         return watchList;
     }
@@ -63,15 +71,24 @@ public class ListViewModel extends AndroidViewModel {
         homeFilms.setValue(list);
     }
 
+    public void addSearchedFilm(Film film){
+        ArrayList<Film> list = new ArrayList<>();
+        if(searchedFilms.getValue() != null){
+            list.addAll(searchedFilms.getValue());
+        }
+        list.add(film);
+        searchedFilms.setValue(list);
+    }
+
     public void clearHomeList(){
         if(homeFilms.getValue() != null){
             homeFilms.getValue().clear();
         }
     }
 
-    public void clearWatchList(){
-        if(watchList.getValue() != null){
-            watchList.getValue().clear();
+    public void clearSearchedList(){
+        if(searchedFilms.getValue() != null){
+            searchedFilms.getValue().clear();
         }
     }
 }

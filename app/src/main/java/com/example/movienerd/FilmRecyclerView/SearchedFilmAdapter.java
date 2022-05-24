@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movienerd.Film;
+import com.example.movienerd.FilmDiffCallback;
 import com.example.movienerd.R;
 
 import java.util.ArrayList;
@@ -44,6 +46,20 @@ public class SearchedFilmAdapter extends RecyclerView.Adapter<SearchedFilmViewHo
                 .load(current.getUrlPosterImg())
                 .into(holder.filmImage);
         holder.title.setText(current.getTitle());
+    }
+
+    public void setData(List<Film> list){
+        this.filmList = new ArrayList<>(list);
+        this.filmListNotFiltered = new ArrayList<>(list);
+
+        final FilmDiffCallback diffCallback = new FilmDiffCallback(this.filmList, list);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        diffResult.dispatchUpdatesTo(this);
+        notifyDataSetChanged();
+    }
+
+    public Film getFilmSelected(int position){
+        return filmList.get(position);
     }
 
     @Override
