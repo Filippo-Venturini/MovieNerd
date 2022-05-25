@@ -22,6 +22,7 @@ public class SearchedFilmViewHolder extends RecyclerView.ViewHolder implements V
         super(itemView);
         filmImage = itemView.findViewById(R.id.searchedFilm_img);
         title = itemView.findViewById(R.id.searchedFilm_title);
+        year = itemView.findViewById(R.id.searchedFilm_year);
         itemListener = listener;
         itemView.setOnClickListener(this);
     }

@@ -39,7 +39,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class SearchFragment extends Fragment  implements OnItemListener {
-    private static final String LOG = "WATCHED_FILMS";
+    private static final String LOG = "SEARCHED_FILM";
     private SearchedFilmAdapter adapter;
     private ListViewModel listViewModel;
     private String searchExpression;
@@ -92,7 +92,6 @@ public class SearchFragment extends Fragment  implements OnItemListener {
                     listViewModel.getSearchedFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                         @Override
                         public void onChanged(List<Film> films) {
-                            Log.d(LOG,"Prova");
                             adapter.setData(films);
                         }
                     });
@@ -101,9 +100,13 @@ public class SearchFragment extends Fragment  implements OnItemListener {
 
                     JSONArray searchedFilms = response.getJSONArray("results");
                     for(int i=0; i<searchedFilms.length(); i++){
+                        String year = (String) searchedFilms.getJSONObject(i).get("description");
+                        if(year.length() >= 6){
+                            year = year.substring(1,5);
+                        }
                         listViewModel.addSearchedFilm(new Film((String) searchedFilms.getJSONObject(i).get("id"),
                                 (String) searchedFilms.getJSONObject(i).get("title"),(String) searchedFilms.getJSONObject(i).get("image"),
-                                "2022", "8.9"));
+                                year, "8.9"));
                     }
 
                 } catch (JSONException e) {

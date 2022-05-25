@@ -1,31 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    app:cardBackgroundColor="#29434e">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#29434e">
 
         <ImageView
             android:id="@+id/searchedFilm_img"
             android:layout_width="85dp"
             android:layout_height="126dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic"/>
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
             android:id="@+id/searchedFilm_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
             android:text="Title"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/searchedFilm_img"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/searchedFilm_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Title"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintStart_toEndOf="@id/searchedFilm_img"
+            app:layout_constraintTop_toBottomOf="@+id/searchedFilm_title" />
+
+
+        <View
+            style="@style/Divider"
+            android:layout_width="350dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:foregroundGravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchedFilm_img" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

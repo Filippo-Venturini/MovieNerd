@@ -46,6 +46,7 @@ public class SearchedFilmAdapter extends RecyclerView.Adapter<SearchedFilmViewHo
                 .load(current.getUrlPosterImg())
                 .into(holder.filmImage);
         holder.title.setText(current.getTitle());
+        holder.year.setText(current.getYear());
     }
 
     public void setData(List<Film> list){

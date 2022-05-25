@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#29434e">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="?attr/actionBarSize"
@@ -11,6 +12,7 @@
         android:layout_height="match_parent"
         android:id="@+id/search_recyclerView"
         android:orientation="vertical"
-        tools:listitem="@layout/searched_element"/>
+        tools:listitem="@layout/searched_element"
+        android:background="#29434e"/>
 
 </LinearLayout>
