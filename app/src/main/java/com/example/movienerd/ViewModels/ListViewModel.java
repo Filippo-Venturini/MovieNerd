@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.movienerd.Database.FilmRepository;
 import com.example.movienerd.Film;
+import com.example.movienerd.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,10 @@ public class ListViewModel extends AndroidViewModel {
     public void addFilm(Film film){
         repository.addFilm(film);
     }
+
+    public void addUser(User user){repository.addUser(user);}
+
+    public User getUser(int id){return repository.getUser(id);}
 
     public void addHomeFilm(Film film){
         ArrayList<Film> list = new ArrayList<>();

@@ -67,6 +67,12 @@ public class HomeFragment extends Fragment implements OnItemListener {
                 setRecyclerView(activity);
                 setHomeViewModel(activity);
             }
+            view.findViewById(R.id.login_textView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), DetailsFragment.class.getSimpleName());
+                }
+            });
         }else{
             Log.e(LOG, "Activity is null");
         }

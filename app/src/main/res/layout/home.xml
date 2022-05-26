@@ -39,5 +39,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/imdb_logo" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/login_textView"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
