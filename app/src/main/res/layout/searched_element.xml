@@ -54,7 +54,8 @@
             android:layout_marginTop="20dp"
             android:foregroundGravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchedFilm_img" />
+            app:layout_constraintTop_toBottomOf="@+id/searchedFilm_img"
+            android:backgroundTint="#F7F7F7"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
