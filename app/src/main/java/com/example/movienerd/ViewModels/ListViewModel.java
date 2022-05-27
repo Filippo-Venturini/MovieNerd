@@ -21,6 +21,7 @@ public class ListViewModel extends AndroidViewModel {
     private  final FilmRepository repository;
     private LiveData<List<Film>> watchList;
     private LiveData<List<Film>> watchedFilms;
+    private LiveData<User> requestedUser;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
@@ -65,7 +66,10 @@ public class ListViewModel extends AndroidViewModel {
 
     public void addUser(User user){repository.addUser(user);}
 
-    public User getUser(int id){return repository.getUser(id);}
+    public LiveData<User> getUser(int id){
+        requestedUser = repository.getUser(id);
+        return requestedUser;
+    }
 
     public void addHomeFilm(Film film){
         ArrayList<Film> list = new ArrayList<>();

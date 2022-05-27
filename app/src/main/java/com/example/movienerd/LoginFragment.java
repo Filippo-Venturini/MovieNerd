@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
@@ -34,9 +36,16 @@ public class LoginFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity != null){
+            Utilities.setUpToolbar(activity, "LOGIN");
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
-            System.out.println(listViewModel.getUser(2));
+            /*listViewModel.getUser(2).observe((LifecycleOwner) activity, new Observer<User>() {
+
+                @Override
+                public void onChanged(User user) {
+                    System.out.println(user);
+                }
+            });*/
 
             this.usernameEdit = view.findViewById(R.id.username_editText);
             this.passwordEdit = view.findViewById(R.id.password_editText);

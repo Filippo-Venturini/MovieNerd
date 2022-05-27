@@ -17,6 +17,7 @@ public class FilmRepository {
     private LiveData<List<Film>> watchlist;
     private LiveData<List<Film>> watchedFilms;
     private LiveData<List<User>> users;
+    private LiveData<User> requestedUser;
 
     public FilmRepository(Application application){
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -39,18 +40,18 @@ public class FilmRepository {
         return users;
     }
 
-    public User getUser(int id){
-        User user = new User();
-        try {
-            user = (User) Executors.newSingleThreadExecutor().submit(() ->{
-                userDAO.getUser(id);
-            }).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return user;
+    public LiveData<User> getUser(int id){
+        requestUser(id);
+        return requestedUser;
+    }
+
+    private void requestUser(int id){
+        AppDatabase.executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                requestedUser = userDAO.getUser(id);
+            }
+        });
     }
 
     public void addFilm(Film film){

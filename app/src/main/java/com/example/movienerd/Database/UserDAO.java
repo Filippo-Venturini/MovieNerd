@@ -24,6 +24,6 @@ public interface UserDAO {
 
     @Transaction
     @Query("SELECT * FROM user WHERE user_id = :id")
-    User getUser(int id);
+    LiveData<User> getUser(int id);
 
 }
