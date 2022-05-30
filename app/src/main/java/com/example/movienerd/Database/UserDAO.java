@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.movienerd.Film;
 import com.example.movienerd.User;
@@ -21,9 +22,7 @@ public interface UserDAO {
     @Query("SELECT * FROM user")
     LiveData<List<User>> getAllUsers();
 
-
-    @Transaction
-    @Query("SELECT * FROM user WHERE user_id = :id")
-    LiveData<User> getUser(int id);
+    @Update
+    void updateUser(User user);
 
 }

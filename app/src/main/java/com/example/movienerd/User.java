@@ -19,7 +19,7 @@ public class User {
     private String password;
 
     @ColumnInfo(name = "isLogged")
-    private Boolean isLogged;
+    private boolean isLogged;
 
     public Boolean getIsLogged() {
         return isLogged;

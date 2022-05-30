@@ -21,13 +21,14 @@ public class ListViewModel extends AndroidViewModel {
     private  final FilmRepository repository;
     private LiveData<List<Film>> watchList;
     private LiveData<List<Film>> watchedFilms;
-    private LiveData<User> requestedUser;
+    private LiveData<List<User>> allUsers;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
         repository = new FilmRepository(application);
         watchList = repository.getWatchList();
         watchedFilms = repository.getWatchedFilms();
+        allUsers = repository.getAllUsers();
     }
 
     public  MutableLiveData<Film> getFilmSelected(){
@@ -60,16 +61,15 @@ public class ListViewModel extends AndroidViewModel {
         return watchedFilms;
     }
 
+    public LiveData<List<User>> getAllUsers(){return allUsers;}
+
     public void addFilm(Film film){
         repository.addFilm(film);
     }
 
     public void addUser(User user){repository.addUser(user);}
 
-    public LiveData<User> getUser(int id){
-        requestedUser = repository.getUser(id);
-        return requestedUser;
-    }
+    public void updateUser(User user){ repository.updateUser(user);}
 
     public void addHomeFilm(Film film){
         ArrayList<Film> list = new ArrayList<>();
