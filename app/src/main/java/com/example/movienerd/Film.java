@@ -10,7 +10,7 @@ public class Film {
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "film_id")
     @NonNull
-    private String id;
+    private String film_id;
 
     @ColumnInfo(name = "film_title")
     private String title;
@@ -30,12 +30,6 @@ public class Film {
     @ColumnInfo(name="film_vote")
     private String vote;
 
-    @ColumnInfo(name="isInWatchlist")
-    private boolean isInWatchlist;
-
-    @ColumnInfo(name="isWatched")
-    private boolean isWatched;
-
     public String getTitle() {
         return title;
     }
@@ -44,15 +38,18 @@ public class Film {
         return year;
     }
 
-    public Film(String id, String title, String urlPosterImg, String year, String vote){
-        this.id = id;
+    public Film(String film_id, String title, String urlPosterImg, String year, String vote){
+        this.film_id = film_id;
         this.title = title;
         this.year = year;
         this.urlPosterImg = urlPosterImg;
         this.vote = vote;
     }
 
-    public String getId(){return this.id;}
+    @NonNull
+    public String getFilm_id() {
+        return film_id;
+    }
 
     public String getVote() {
         return vote;
@@ -75,20 +72,4 @@ public class Film {
     }
 
     public void setDuration(String duration){this.duration = duration;}
-
-    public boolean isInWatchlist() {
-        return isInWatchlist;
-    }
-
-    public void setInWatchlist(boolean inWatchlist) {
-        isInWatchlist = inWatchlist;
-    }
-
-    public boolean isWatched() {
-        return isWatched;
-    }
-
-    public void setWatched(boolean watched) {
-        isWatched = watched;
-    }
 }

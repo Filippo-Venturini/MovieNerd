@@ -149,8 +149,10 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
-                    currentFilm.setInWatchlist(true);
                     listViewModel.addFilm(currentFilm);
+                    UserFilmCrossRef currentRef = new UserFilmCrossRef(1,currentFilm.getFilm_id());
+                    currentRef.setInWatchlist(true);
+                    listViewModel.addUserFilm(currentRef);
                 }
             });
 
@@ -158,9 +160,11 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to Watched Movies", Toast.LENGTH_SHORT).show();
-                    currentFilm.setInWatchlist(false);
-                    currentFilm.setWatched(true);
                     listViewModel.addFilm(currentFilm);
+                    UserFilmCrossRef currentRef = new UserFilmCrossRef(1,currentFilm.getFilm_id());
+                    currentRef.setInWatchlist(false);
+                    currentRef.setWatched(true);
+                    listViewModel.addUserFilm(currentRef);
                 }
             });
         }else{
@@ -177,7 +181,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void sendVolleyRequest(Activity activity, View view){
-        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getId()+"/Images";
+        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getFilm_id()+"/Images";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

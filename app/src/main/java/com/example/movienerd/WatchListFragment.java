@@ -29,12 +29,14 @@ import com.example.movienerd.ViewModels.ListViewModel;
 
 import org.json.JSONArray;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class WatchListFragment extends Fragment implements OnItemListener {
     private static final String LOG = "WATCH_LIST";
     private SimpleCardAdapter adapter;
     private ListViewModel listViewModel;
+    private List<Film> allFilms;
 
     @Nullable
     @Override
@@ -53,10 +55,29 @@ public class WatchListFragment extends Fragment implements OnItemListener {
             setRecyclerView(activity);
 
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
-            listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+
+            listViewModel.getAllFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                 @Override
                 public void onChanged(List<Film> films) {
-                    adapter.setData(films);
+                    allFilms = films;
+                }
+            });
+
+            listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
+                @Override
+                public void onChanged(List<UserFilmCrossRef> watchListId) {
+                    List<Film> watchList = new LinkedList<>();
+                    for(UserFilmCrossRef userWithFilms:watchListId){
+                        if(userWithFilms.getUser_id() == 1){
+                            for(Film current : allFilms){
+                                if(current.getFilm_id().equals(userWithFilms.getFilm_id())){
+                                    watchList.add(current);
+                                }
+                            }
+                        }
+                    }
+
+                    adapter.setData(watchList);
                 }
             });
 

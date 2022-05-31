@@ -25,12 +25,14 @@ import com.example.movienerd.FilmRecyclerView.OnItemListener;
 import com.example.movienerd.FilmRecyclerView.SimpleCardAdapter;
 import com.example.movienerd.ViewModels.ListViewModel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class WatchedFilmsFragment extends Fragment implements OnItemListener{
     private static final String LOG = "WATCHED_FILMS";
     private SimpleCardAdapter adapter;
     private ListViewModel listViewModel;
+    private List<Film> allFilms;
 
     @Nullable
     @Override
@@ -50,10 +52,29 @@ public class WatchedFilmsFragment extends Fragment implements OnItemListener{
             setRecyclerView(activity);
 
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
-            listViewModel.getWatchedFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+
+            listViewModel.getAllFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                 @Override
                 public void onChanged(List<Film> films) {
-                    adapter.setData(films);
+                    allFilms = films;
+                }
+            });
+
+            listViewModel.getWatchedFilms().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
+                @Override
+                public void onChanged(List<UserFilmCrossRef> watchedFilmsId) {
+                    List<Film> watchedFilms = new LinkedList<>();
+                    for(UserFilmCrossRef userWithFilms:watchedFilmsId){
+                        System.out.println(userWithFilms.getFilm_id());
+                        if(userWithFilms.getUser_id() == 1){
+                            for(Film current : allFilms){
+                                if(current.getFilm_id().equals(userWithFilms.getFilm_id())){
+                                    watchedFilms.add(current);
+                                }
+                            }
+                        }
+                    }
+                    adapter.setData(watchedFilms);
                 }
             });
 

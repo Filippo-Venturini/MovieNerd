@@ -18,10 +18,6 @@ public interface FilmDAO {
     void addFilm(Film film);
 
     @Transaction
-    @Query("SELECT * FROM film WHERE isInWatchlist == 1")
-    LiveData<List<Film>> getWatchList();
-
-    @Transaction
-    @Query("SELECT * FROM film WHERE isWatched == 1")
-    LiveData<List<Film>> getWatchedFilms();
+    @Query("SELECT * FROM film")
+    LiveData<List<Film>> getAllFilms();
 }

@@ -10,6 +10,7 @@ import androidx.room.Update;
 
 import com.example.movienerd.Film;
 import com.example.movienerd.User;
+import com.example.movienerd.UserWithFilms;
 
 import java.util.List;
 
@@ -24,5 +25,4 @@ public interface UserDAO {
 
     @Update
     void updateUser(User user);
-
 }

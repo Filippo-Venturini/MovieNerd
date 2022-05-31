@@ -10,8 +10,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.movienerd.Database.FilmRepository;
 import com.example.movienerd.Film;
 import com.example.movienerd.User;
+import com.example.movienerd.UserFilmCrossRef;
+import com.example.movienerd.UserWithFilms;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ListViewModel extends AndroidViewModel {
@@ -19,16 +22,20 @@ public class ListViewModel extends AndroidViewModel {
     public  MutableLiveData<List<Film>> homeFilms;
     public  MutableLiveData<List<Film>> searchedFilms;
     private  final FilmRepository repository;
-    private LiveData<List<Film>> watchList;
-    private LiveData<List<Film>> watchedFilms;
+    private LiveData<List<UserFilmCrossRef>> watchListId;
+    private LiveData<List<UserFilmCrossRef>> watchedFilmsId;
     private LiveData<List<User>> allUsers;
+    private LiveData<List<UserWithFilms>> usersWithFilms;
+    private LiveData<List<Film>> allFilms;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
         repository = new FilmRepository(application);
-        watchList = repository.getWatchList();
-        watchedFilms = repository.getWatchedFilms();
+        watchListId = repository.getWatchList();
+        watchedFilmsId = repository.getWatchedFilms();
         allUsers = repository.getAllUsers();
+        usersWithFilms = repository.getUsersWithFilms();
+        allFilms = repository.getAllFilms();
     }
 
     public  MutableLiveData<Film> getFilmSelected(){
@@ -53,21 +60,27 @@ public class ListViewModel extends AndroidViewModel {
         return searchedFilms;
     }
 
-    public LiveData<List<Film>> getWatchList(){
-        return watchList;
+    public LiveData<List<UserFilmCrossRef>> getWatchList(){
+        return watchListId;
     }
 
-    public LiveData<List<Film>> getWatchedFilms(){
-        return watchedFilms;
+    public LiveData<List<UserFilmCrossRef>> getWatchedFilms(){
+        return watchedFilmsId;
     }
 
     public LiveData<List<User>> getAllUsers(){return allUsers;}
+
+    public LiveData<List<Film>> getAllFilms(){return  allFilms;}
+
+    public LiveData<List<UserWithFilms>> getUsersWithFilms(){return  usersWithFilms;}
 
     public void addFilm(Film film){
         repository.addFilm(film);
     }
 
     public void addUser(User user){repository.addUser(user);}
+
+    public void addUserFilm(UserFilmCrossRef userFilm){repository.addUserWithFilms(userFilm);}
 
     public void updateUser(User user){ repository.updateUser(user);}
 

@@ -35,7 +35,7 @@ public class FilmDiffCallback extends DiffUtil.Callback {
         final Film oldFilm = oldFilmList.get(oldItemPosition);
         final Film newFilm = newFilmList.get(newItemPosition);
 
-        return oldFilm.getId().equals(newFilm.getId());
+        return oldFilm.getFilm_id().equals(newFilm.getFilm_id());
     }
 
     @Nullable
