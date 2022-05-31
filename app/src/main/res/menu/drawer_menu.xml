@@ -13,10 +13,11 @@
         <item android:id="@+id/nav_watchedMovies"
             android:icon="@drawable/ic_baseline_local_movies_24"
             android:title="Watched Movies"/>
-        <item android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_android_black_24"
-            android:title="Profile"/>
     </group>
+
+    <item android:id="@+id/nav_logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"/>
 
 
 </menu>

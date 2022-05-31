@@ -76,13 +76,6 @@ public class HomeFragment extends Fragment implements OnItemListener {
                     Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), DetailsFragment.class.getSimpleName());
                 }
             });
-            view.findViewById(R.id.logout_textView).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentUser.setIsLogged(false);
-                    listViewModel.updateUser(currentUser);
-                }
-            });
         }else{
             Log.e(LOG, "Activity is null");
         }

@@ -7,6 +7,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,17 +18,40 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.movienerd.ViewModels.ListViewModel;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     public boolean homeAPIRequestDone = false;
+    private ListViewModel listViewModel;
+    private User currentUser;
+    private boolean isInHome = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        listViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(ListViewModel.class);
+
+        listViewModel.getAllUsers().observe((LifecycleOwner) this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                for(User user : users){
+                    if(user.getIsLogged()){
+                        TextView txtUsername = findViewById(R.id.username_TextView);
+                        txtUsername.setText(user.getUsername());
+                        currentUser = user;
+                    }
+                }
+            }
+        });
 
         Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
 
@@ -72,12 +99,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.nav_home:
                 Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
+                isInHome = true;
                 break;
             case R.id.nav_watchList:
                 Utilities.insertFragment(this, new WatchListFragment(), WatchListFragment.class.getSimpleName());
+                isInHome = false;
                 break;
             case R.id.nav_watchedMovies:
                 Utilities.insertFragment(this, new WatchedFilmsFragment(), WatchedFilmsFragment.class.getSimpleName());
+                isInHome = false;
+                break;
+            case R.id.nav_logout:
+                TextView txtUsername = findViewById(R.id.username_TextView);
+                if(currentUser == null || txtUsername.getText().equals("User")){
+                    break;
+                }
+                currentUser.setIsLogged(false);
+                listViewModel.updateUser(currentUser);
+                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+                txtUsername.setText("User");
+                if(!isInHome){
+                    isInHome = true;
+                    Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
+                }
                 break;
         }
 
