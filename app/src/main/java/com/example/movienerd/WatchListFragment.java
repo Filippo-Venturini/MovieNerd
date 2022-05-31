@@ -37,6 +37,7 @@ public class WatchListFragment extends Fragment implements OnItemListener {
     private SimpleCardAdapter adapter;
     private ListViewModel listViewModel;
     private List<Film> allFilms;
+    private User currentUser;
 
     @Nullable
     @Override
@@ -56,6 +57,17 @@ public class WatchListFragment extends Fragment implements OnItemListener {
 
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
+            listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {
+                @Override
+                public void onChanged(List<User> users) {
+                    for(User user : users){
+                        if(user.getIsLogged()){
+                            currentUser = user;
+                        }
+                    }
+                }
+            });
+
             listViewModel.getAllFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                 @Override
                 public void onChanged(List<Film> films) {
@@ -68,7 +80,7 @@ public class WatchListFragment extends Fragment implements OnItemListener {
                 public void onChanged(List<UserFilmCrossRef> watchListId) {
                     List<Film> watchList = new LinkedList<>();
                     for(UserFilmCrossRef userWithFilms:watchListId){
-                        if(userWithFilms.getUser_id() == 1){
+                        if(userWithFilms.getUser_id() == currentUser.getUser_id()){
                             for(Film current : allFilms){
                                 if(current.getFilm_id().equals(userWithFilms.getFilm_id())){
                                     watchList.add(current);

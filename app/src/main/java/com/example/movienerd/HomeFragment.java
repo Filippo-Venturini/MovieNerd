@@ -46,6 +46,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
 
     private ListViewModel listViewModel;
+    private User currentUser;
 
     @Nullable
     @Override
@@ -68,10 +69,18 @@ public class HomeFragment extends Fragment implements OnItemListener {
                 setRecyclerView(activity);
                 setHomeViewModel(activity);
             }
+
             view.findViewById(R.id.login_textView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), DetailsFragment.class.getSimpleName());
+                }
+            });
+            view.findViewById(R.id.logout_textView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentUser.setIsLogged(false);
+                    listViewModel.updateUser(currentUser);
                 }
             });
         }else{
@@ -98,6 +107,18 @@ public class HomeFragment extends Fragment implements OnItemListener {
 
     private void setHomeViewModel(Activity activity){
         listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+
+        listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                for(User user : users){
+                    if(user.getIsLogged()){
+                        currentUser = user;
+                    }
+                }
+            }
+        });
+
         listViewModel.getHomeFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
             @Override
             public void onChanged(List<Film> films) {

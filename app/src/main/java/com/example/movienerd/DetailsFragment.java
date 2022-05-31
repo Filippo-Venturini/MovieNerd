@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -46,6 +47,7 @@ public class DetailsFragment extends Fragment {
 
     private static final String LOG = "DETAILS";
     private Film currentFilm;
+    private User currentUser;
     private List<Actor> actorsList = new LinkedList<>();
 
     private ActorCardAdapter adapter;
@@ -108,6 +110,18 @@ public class DetailsFragment extends Fragment {
 
 
             ListViewModel listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+
+            listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {
+                @Override
+                public void onChanged(List<User> users) {
+                    for(User user : users){
+                        if(user.getIsLogged()){
+                            currentUser = user;
+                        }
+                    }
+                }
+            });
+
             listViewModel.getFilmSelected().observe(getViewLifecycleOwner(), new Observer<Film>() {
                 @Override
                 public void onChanged(Film film) {
@@ -150,7 +164,7 @@ public class DetailsFragment extends Fragment {
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
                     listViewModel.addFilm(currentFilm);
-                    UserFilmCrossRef currentRef = new UserFilmCrossRef(1,currentFilm.getFilm_id());
+                    UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());
                     currentRef.setInWatchlist(true);
                     listViewModel.addUserFilm(currentRef);
                 }
@@ -161,7 +175,7 @@ public class DetailsFragment extends Fragment {
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to Watched Movies", Toast.LENGTH_SHORT).show();
                     listViewModel.addFilm(currentFilm);
-                    UserFilmCrossRef currentRef = new UserFilmCrossRef(1,currentFilm.getFilm_id());
+                    UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());
                     currentRef.setInWatchlist(false);
                     currentRef.setWatched(true);
                     listViewModel.addUserFilm(currentRef);
