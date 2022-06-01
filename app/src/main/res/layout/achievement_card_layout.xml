@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#29434e">
+
+        <ImageView
+            android:layout_width="85dp"
+            android:layout_height="126dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/achievement_imageView"/>
+
+        <TextView
+            android:id="@+id/achievementTitle_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="25dp"
+            android:text="Achievement"
+            app:layout_constraintStart_toEndOf="@+id/achievement_imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/achievementDescription_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:text="achievement description"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/achievement_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/achievementTitle_textView" />
+
+        <View
+            style="@style/Divider"
+            android:layout_width="350dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:foregroundGravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/achievement_imageView"
+            android:backgroundTint="#F7F7F7"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

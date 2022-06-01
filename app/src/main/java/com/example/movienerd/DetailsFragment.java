@@ -167,6 +167,7 @@ public class DetailsFragment extends Fragment {
                     UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());
                     currentRef.setInWatchlist(true);
                     listViewModel.addUserFilm(currentRef);
+                    listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
                 }
             });
 

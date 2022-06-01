@@ -16,11 +16,6 @@ import java.util.List;
 
 @Dao
 public interface UserWithFilmsDAO {
-
-    @Transaction
-    @Query("SELECT * FROM user")
-    LiveData<List<UserWithFilms>> getUsersWithFilms();
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addUserFilm(UserFilmCrossRef user);
 

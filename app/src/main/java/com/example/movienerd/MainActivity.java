@@ -53,6 +53,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        listViewModel.getAllAchievements().observe((LifecycleOwner) this, new Observer<List<Achievement>>() {
+            @Override
+            public void onChanged(List<Achievement> achievements) {
+                if(achievements.size() == 0){
+                    listViewModel.addAchievement(new Achievement("imdb_logo","Achievement_1", "Primo film in watchList"));
+                    listViewModel.addAchievement(new Achievement("imdb_logo","Achievement_2", "achievement di prova"));
+                }
+            }
+        });
+
         Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -97,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            case R.id.nav_profile:
+                Utilities.insertFragment(this, new ProfileFragment(), ProfileFragment.class.getSimpleName());
+                isInHome = false;
+                break;
             case R.id.nav_home:
                 Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
                 isInHome = true;

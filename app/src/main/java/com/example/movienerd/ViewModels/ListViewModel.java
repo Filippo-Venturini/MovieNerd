@@ -7,10 +7,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.movienerd.Achievement;
 import com.example.movienerd.Database.FilmRepository;
 import com.example.movienerd.Film;
 import com.example.movienerd.User;
+import com.example.movienerd.UserAchievementCrossRef;
 import com.example.movienerd.UserFilmCrossRef;
+import com.example.movienerd.UserWithAchievements;
 import com.example.movienerd.UserWithFilms;
 
 import java.util.ArrayList;
@@ -25,8 +28,9 @@ public class ListViewModel extends AndroidViewModel {
     private LiveData<List<UserFilmCrossRef>> watchListId;
     private LiveData<List<UserFilmCrossRef>> watchedFilmsId;
     private LiveData<List<User>> allUsers;
-    private LiveData<List<UserWithFilms>> usersWithFilms;
     private LiveData<List<Film>> allFilms;
+    private LiveData<List<Achievement>> allAchievements;
+    private LiveData<List<UserAchievementCrossRef>> usersWithAchievement;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
@@ -34,8 +38,9 @@ public class ListViewModel extends AndroidViewModel {
         watchListId = repository.getWatchList();
         watchedFilmsId = repository.getWatchedFilms();
         allUsers = repository.getAllUsers();
-        usersWithFilms = repository.getUsersWithFilms();
         allFilms = repository.getAllFilms();
+        allAchievements = repository.getAllAchievement();
+        usersWithAchievement = repository.getUsersWithAchievements();
     }
 
     public  MutableLiveData<Film> getFilmSelected(){
@@ -72,7 +77,11 @@ public class ListViewModel extends AndroidViewModel {
 
     public LiveData<List<Film>> getAllFilms(){return  allFilms;}
 
-    public LiveData<List<UserWithFilms>> getUsersWithFilms(){return  usersWithFilms;}
+    public LiveData<List<UserAchievementCrossRef>> getUsersWithAchievement(){return usersWithAchievement;}
+
+    public LiveData<List<Achievement>> getAllAchievements(){return allAchievements;}
+
+    public void addAchievement(Achievement achievement){ repository.addAchievement(achievement);}
 
     public void addFilm(Film film){
         repository.addFilm(film);
@@ -81,6 +90,8 @@ public class ListViewModel extends AndroidViewModel {
     public void addUser(User user){repository.addUser(user);}
 
     public void addUserFilm(UserFilmCrossRef userFilm){repository.addUserWithFilms(userFilm);}
+
+    public void addUserAchievement(UserAchievementCrossRef userAchievement){ repository.addUserWithAchievements(userAchievement);}
 
     public void updateUser(User user){ repository.updateUser(user);}
 

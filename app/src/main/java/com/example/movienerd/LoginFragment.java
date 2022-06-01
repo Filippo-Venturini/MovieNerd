@@ -52,13 +52,6 @@ public class LoginFragment extends Fragment{
                 }
             });
 
-            listViewModel.getUsersWithFilms().observe((LifecycleOwner) activity, new Observer<List<UserWithFilms>>() {
-                @Override
-                public void onChanged(List<UserWithFilms> users) {
-                    System.out.println(users);
-                }
-            });
-
             this.usernameEdit = view.findViewById(R.id.username_editText);
             this.passwordEdit = view.findViewById(R.id.password_editText);
             view.findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
