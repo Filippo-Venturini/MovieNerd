@@ -4,12 +4,12 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_baseline_exit_to_app_24"
-            android:title="Profile"/>
         <item android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="Home"/>
+        <item android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="Profile"/>
         <item android:id="@+id/nav_watchList"
             android:icon="@drawable/ic_baseline_remove_red_eye_24"
             android:title="WatchList"/>
@@ -17,10 +17,5 @@
             android:icon="@drawable/ic_baseline_local_movies_24"
             android:title="Watched Movies"/>
     </group>
-
-    <item android:id="@+id/nav_logout"
-        android:title="Logout"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"/>
-
 
 </menu>

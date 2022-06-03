@@ -95,8 +95,16 @@ public class FilmRepository {
         AppDatabase.executor.execute(new Runnable() {
             @Override
             public void run() {
-                System.out.println(user.getUser_id());
                 userDAO.updateUser(user);
+            }
+        });
+    }
+
+    public void updateUserFilms(UserFilmCrossRef userFilms){
+        AppDatabase.executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                userWithFilmsDAO.updateUserFilms(userFilms);
             }
         });
     }

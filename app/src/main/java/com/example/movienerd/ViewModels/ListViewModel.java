@@ -95,6 +95,8 @@ public class ListViewModel extends AndroidViewModel {
 
     public void updateUser(User user){ repository.updateUser(user);}
 
+    public void updateUserFilms(UserFilmCrossRef userFilms){repository.updateUserFilms(userFilms);}
+
     public void addHomeFilm(Film film){
         ArrayList<Film> list = new ArrayList<>();
         if(homeFilms.getValue() != null){

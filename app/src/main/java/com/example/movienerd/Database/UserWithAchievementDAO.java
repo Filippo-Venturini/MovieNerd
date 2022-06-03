@@ -17,7 +17,7 @@ import java.util.List;
 @Dao
 public interface UserWithAchievementDAO {
     @Transaction
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM UserAchievementCrossRef")
     LiveData<List<UserAchievementCrossRef>> getUsersWithAchievements();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.movienerd.Film;
 import com.example.movienerd.User;
@@ -26,4 +27,7 @@ public interface UserWithFilmsDAO {
     @Transaction
     @Query("SELECT * FROM UserFilmCrossRef WHERE isWatched == 1")
     LiveData<List<UserFilmCrossRef>> getWatchedFilmsId();
+
+    @Update
+    void updateUserFilms(UserFilmCrossRef userFilms);
 }

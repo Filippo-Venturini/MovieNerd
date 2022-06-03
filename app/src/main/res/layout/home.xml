@@ -40,14 +40,17 @@
         app:srcCompat="@drawable/imdb_logo" />
 
     <TextView
+        android:id="@+id/login_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/white"
+        android:layout_marginStart="90dp"
+        android:layout_marginBottom="20dp"
         android:clickable="true"
         android:focusable="true"
-        android:id="@+id/login_textView"/>
+        android:text="Not registered? Create your account"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.example.movienerd;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -18,11 +19,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.movienerd.ViewModels.ListViewModel;
 import com.google.android.material.navigation.NavigationView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -43,12 +47,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listViewModel.getAllUsers().observe((LifecycleOwner) this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
+                TextView txtLoginLogout = findViewById(R.id.loginLogout_textView);
+                TextView txtUsername = findViewById(R.id.username_TextView);
+                boolean logged = false;
                 for(User user : users){
-                    if(user.getIsLogged()){
-                        TextView txtUsername = findViewById(R.id.username_TextView);
+                    if(user.getIsLogged() && txtUsername != null){
                         txtUsername.setText(user.getUsername());
                         currentUser = user;
+                        logged = true;
                     }
+                }
+                if(logged){
+                    txtLoginLogout.setText("Logout");
+                }else{
+                    txtLoginLogout.setText("Login");
                 }
             }
         });
@@ -57,8 +69,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<Achievement> achievements) {
                 if(achievements.size() == 0){
-                    listViewModel.addAchievement(new Achievement("imdb_logo","Achievement_1", "Primo film in watchList"));
-                    listViewModel.addAchievement(new Achievement("imdb_logo","Achievement_2", "achievement di prova"));
+                    listViewModel.addAchievement(new Achievement("imdb_logo","A Good Start", "Add your first film to your watchlist"));
+                    listViewModel.addAchievement(new Achievement("imdb_logo","Beginner", "Watch your first movie"));
+                    listViewModel.addAchievement(new Achievement("imdb_logo","Let me take a look", "Look at the details of a movie"));
+                    listViewModel.addAchievement(new Achievement("imdb_logo","Advanced", "Watch 3 movies"));
+                }
+            }
+        });
+
+        Activity activity = this;
+
+        findViewById(R.id.loginLogout_CardView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView txtLoginLogout = findViewById(R.id.loginLogout_textView);
+                if(txtLoginLogout.getText().equals("Login")){
+                    Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), LoginFragment.class.getSimpleName());
+                }else{
+                    currentUser.setIsLogged(false);
+                    listViewModel.updateUser(currentUser);
+                    Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
+                    TextView txtUsername = findViewById(R.id.username_TextView);
+                    txtUsername.setText("Guest");
+                    if(drawer.isDrawerOpen(GravityCompat.START)){
+                        drawer.closeDrawer(GravityCompat.START);
+                    }
+                    if(!isInHome){
+                        isInHome = true;
+                        Utilities.insertFragment((AppCompatActivity) activity, new HomeFragment(), HomeFragment.class.getSimpleName());
+                    }
                 }
             }
         });
@@ -108,6 +147,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_profile:
+                if(!isLogged()){
+                    Toast.makeText(this, "Login is required", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 Utilities.insertFragment(this, new ProfileFragment(), ProfileFragment.class.getSimpleName());
                 isInHome = false;
                 break;
@@ -116,26 +159,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isInHome = true;
                 break;
             case R.id.nav_watchList:
+                if(!isLogged()){
+                    Toast.makeText(this, "Login is required", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 Utilities.insertFragment(this, new WatchListFragment(), WatchListFragment.class.getSimpleName());
                 isInHome = false;
                 break;
             case R.id.nav_watchedMovies:
-                Utilities.insertFragment(this, new WatchedFilmsFragment(), WatchedFilmsFragment.class.getSimpleName());
-                isInHome = false;
-                break;
-            case R.id.nav_logout:
-                TextView txtUsername = findViewById(R.id.username_TextView);
-                if(currentUser == null || txtUsername.getText().equals("User")){
+                if(!isLogged()){
+                    Toast.makeText(this, "Login is required", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                currentUser.setIsLogged(false);
-                listViewModel.updateUser(currentUser);
-                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-                txtUsername.setText("User");
-                if(!isInHome){
-                    isInHome = true;
-                    Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
-                }
+                Utilities.insertFragment(this, new WatchedFilmsFragment(), WatchedFilmsFragment.class.getSimpleName());
+                isInHome = false;
                 break;
         }
 
@@ -151,5 +188,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else{
             super.onBackPressed();
         }
+    }
+
+    public boolean isLogged(){
+        TextView txtLoginLogout = findViewById(R.id.loginLogout_textView);
+        return txtLoginLogout.getText().equals("Logout");
     }
 }

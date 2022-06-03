@@ -66,10 +66,10 @@ public class LoginFragment extends Fragment{
                 }
             });
 
-            view.findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
+            view.findViewById(R.id.register_textView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listViewModel.addUser(new User(usernameEdit.getText().toString(), passwordEdit.getText().toString()));
+                    Utilities.insertFragment(activity, new RegisterFragment(), RegisterFragment.class.getSimpleName());
                 }
             });
         }

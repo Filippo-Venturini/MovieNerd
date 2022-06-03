@@ -72,6 +72,9 @@ public class DetailsFragment extends Fragment {
 
     private boolean clicked = false;
 
+    private List<String> currentWatchListIds;
+    private List<String> currentWatchedIds;
+
     public DetailsFragment(Film film){
         this.currentFilm = film;
     }
@@ -122,6 +125,30 @@ public class DetailsFragment extends Fragment {
                 }
             });
 
+            listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
+                @Override
+                public void onChanged(List<UserFilmCrossRef> usersFilms) {
+                    currentWatchListIds = new LinkedList<>();
+                    for(UserFilmCrossRef userFilm : usersFilms){
+                        if(userFilm.getUser_id() == currentUser.getUser_id()){
+                            currentWatchListIds.add(userFilm.getFilm_id());
+                        }
+                    }
+                }
+            });
+
+            listViewModel.getWatchedFilms().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
+                @Override
+                public void onChanged(List<UserFilmCrossRef> usersFilms) {
+                    currentWatchedIds = new LinkedList<>();
+                    for(UserFilmCrossRef userFilm : usersFilms){
+                        if(userFilm.getUser_id() == currentUser.getUser_id()){
+                            currentWatchedIds.add(userFilm.getFilm_id());
+                        }
+                    }
+                }
+            });
+
             listViewModel.getFilmSelected().observe(getViewLifecycleOwner(), new Observer<Film>() {
                 @Override
                 public void onChanged(Film film) {
@@ -133,6 +160,12 @@ public class DetailsFragment extends Fragment {
                     yearTextView.setText(film.getYear());
                 }
             });
+
+            MainActivity mainActivity = (MainActivity) this.getActivity();
+
+            if(!mainActivity.isLogged()){
+                fabAdd.setVisibility(View.INVISIBLE);
+            }
 
             fabAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -163,11 +196,22 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
-                    listViewModel.addFilm(currentFilm);
+                    if(!currentWatchedIds.contains(currentFilm.getFilm_id()) && !currentWatchListIds.contains(currentFilm.getFilm_id())){
+                        listViewModel.addFilm(currentFilm);
+                    }
                     UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());
                     currentRef.setInWatchlist(true);
-                    listViewModel.addUserFilm(currentRef);
-                    listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
+                    currentUser.toggleWatchListCounter(true);
+                    listViewModel.updateUser(currentUser);
+
+                    if(currentWatchedIds.contains(currentFilm.getFilm_id())){
+                        listViewModel.updateUserFilms(currentRef);
+                    }else{
+                        listViewModel.addUserFilm(currentRef);
+                    }
+                    if(currentUser.getFilmInWatchlist() == 1){
+                        listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
+                    }
                 }
             });
 
@@ -175,11 +219,17 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to Watched Movies", Toast.LENGTH_SHORT).show();
-                    listViewModel.addFilm(currentFilm);
                     UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());
+                    if(currentWatchListIds.contains(currentFilm.getFilm_id())){
+                        listViewModel.updateUserFilms(currentRef);
+                    }else{
+                        //listViewModel.addFilm(currentFilm);
+                        listViewModel.addUserFilm(currentRef);
+                    }
                     currentRef.setInWatchlist(false);
                     currentRef.setWatched(true);
                     listViewModel.addUserFilm(currentRef);
+                    listViewModel.updateUser(currentUser);
                 }
             });
         }else{

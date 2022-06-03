@@ -21,6 +21,44 @@ public class User {
     @ColumnInfo(name = "isLogged")
     private boolean isLogged;
 
+    @ColumnInfo(name = "filmInWatchlist")
+    private int filmInWatchlist;
+
+    @ColumnInfo(name = "filmWatched")
+    private int filmWatched;
+
+    public void toggleWatchListCounter(boolean increment){
+        if(increment){
+            this.filmInWatchlist++;
+        }else{
+            this.filmInWatchlist--;
+        }
+    }
+
+    public void toggleFilmWatchedCounter(boolean increment){
+        if(increment){
+            this.filmWatched++;
+        }else{
+            this.filmWatched--;
+        }
+    }
+
+    public int getFilmWatched() {
+        return filmWatched;
+    }
+
+    public void setFilmWatched(int filmWatched) {
+        this.filmWatched = filmWatched;
+    }
+
+    public int getFilmInWatchlist() {
+        return filmInWatchlist;
+    }
+
+    public void setFilmInWatchlist(int filmInWatchlist) {
+        this.filmInWatchlist = filmInWatchlist;
+    }
+
     public Boolean getIsLogged() {
         return isLogged;
     }

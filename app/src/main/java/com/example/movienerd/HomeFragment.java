@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
             view.findViewById(R.id.login_textView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), DetailsFragment.class.getSimpleName());
+                    Utilities.insertFragment((AppCompatActivity) activity, new RegisterFragment(), RegisterFragment.class.getSimpleName());
                 }
             });
         }else{
