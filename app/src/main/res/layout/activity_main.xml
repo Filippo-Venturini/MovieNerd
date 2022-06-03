@@ -24,7 +24,8 @@
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/toolbar"
             android:elevation="4dp"
-            android:background="#819ca9"/>
+            android:background="#546e7a"
+            app:titleTextColor="@color/white"/>
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
@@ -44,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="680dp"
+            android:layout_marginTop="750dp"
             android:background="#546e7a"
             app:cardElevation="0dp"
             android:clickable="true"

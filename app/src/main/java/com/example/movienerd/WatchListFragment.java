@@ -58,27 +58,32 @@ public class WatchListFragment extends Fragment implements OnItemListener {
 
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
+            listViewModel.getAllFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+                @Override
+                public void onChanged(List<Film> films) {
+                    System.out.println("ALL FILMS");
+                    allFilms = films;
+                }
+            });
+
             listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {
                 @Override
                 public void onChanged(List<User> users) {
                     for(User user : users){
                         if(user.getIsLogged()){
                             currentUser = user;
+                            listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
                         }
                     }
-                }
-            });
-
-            listViewModel.getAllFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
-                @Override
-                public void onChanged(List<Film> films) {
-                    allFilms = films;
                 }
             });
 
             listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
                 @Override
                 public void onChanged(List<UserFilmCrossRef> watchListId) {
+                    if(allFilms == null){
+                        return; //TODO RICORDARSI BUG WATCHLIST
+                    }
                     List<Film> watchList = new LinkedList<>();
                     for(UserFilmCrossRef userWithFilms:watchListId){
                         if(userWithFilms.getUser_id() == currentUser.getUser_id()){

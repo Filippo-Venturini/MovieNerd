@@ -196,7 +196,9 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
+                    System.out.println("FILM ID:"+currentFilm.getFilm_id());
                     if(!currentWatchedIds.contains(currentFilm.getFilm_id()) && !currentWatchListIds.contains(currentFilm.getFilm_id())){
+                        System.out.println("FILM AGGIUNTO");
                         listViewModel.addFilm(currentFilm);
                     }
                     UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());

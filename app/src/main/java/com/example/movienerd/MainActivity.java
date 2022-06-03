@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
         listViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(ListViewModel.class);
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<Achievement> achievements) {
                 if(achievements.size() == 0){
-                    listViewModel.addAchievement(new Achievement("imdb_logo","A Good Start", "Add your first film to your watchlist"));
+                    listViewModel.addAchievement(new Achievement("watch","A Good Start", "Add your first film to your watchlist"));
                     listViewModel.addAchievement(new Achievement("imdb_logo","Beginner", "Watch your first movie"));
                     listViewModel.addAchievement(new Achievement("imdb_logo","Let me take a look", "Look at the details of a movie"));
                     listViewModel.addAchievement(new Achievement("imdb_logo","Advanced", "Watch 3 movies"));
@@ -78,31 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         Activity activity = this;
-
-        findViewById(R.id.loginLogout_CardView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView txtLoginLogout = findViewById(R.id.loginLogout_textView);
-                if(txtLoginLogout.getText().equals("Login")){
-                    Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), LoginFragment.class.getSimpleName());
-                }else{
-                    currentUser.setIsLogged(false);
-                    listViewModel.updateUser(currentUser);
-                    Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
-                    TextView txtUsername = findViewById(R.id.username_TextView);
-                    txtUsername.setText("Guest");
-                    if(drawer.isDrawerOpen(GravityCompat.START)){
-                        drawer.closeDrawer(GravityCompat.START);
-                    }
-                    if(!isInHome){
-                        isInHome = true;
-                        Utilities.insertFragment((AppCompatActivity) activity, new HomeFragment(), HomeFragment.class.getSimpleName());
-                    }
-                }
-            }
-        });
-
-        Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,6 +91,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        findViewById(R.id.loginLogout_CardView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView txtLoginLogout = findViewById(R.id.loginLogout_textView);
+                if(txtLoginLogout.getText().equals("Login")){
+                    drawer.closeDrawer(GravityCompat.START);
+                    Utilities.insertFragment((AppCompatActivity) activity, new LoginFragment(), LoginFragment.class.getSimpleName());
+                }else{
+                    currentUser.setIsLogged(false);
+                    listViewModel.updateUser(currentUser);
+                    Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
+                    TextView txtUsername = findViewById(R.id.username_TextView);
+                    txtUsername.setText("Guest");
+                    drawer.closeDrawer(GravityCompat.START);
+                    if(!isInHome){
+                        isInHome = true;
+                        Utilities.insertFragment((AppCompatActivity) activity, new HomeFragment(), HomeFragment.class.getSimpleName());
+                    }
+                }
+            }
+        });
+
+        Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
     }
 
     @Override
