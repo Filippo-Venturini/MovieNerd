@@ -62,16 +62,17 @@ public class HomeFragment extends Fragment implements OnItemListener {
         super.onViewCreated(view, savedInstance);
         final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
+            Log.d("Ciao", "Sono nella onviewCreated");
             Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
             activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
             if(!activity.homeAPIRequestDone){
                 requestQueue = Volley.newRequestQueue(activity);
                 this.sendVolleyRequest(activity);
-                //this.sendPopularVolleyRequest(activity);
+                this.sendPopularVolleyRequest(activity);
                 activity.homeAPIRequestDone = true;
             }else{
                 setRecyclerView(activity);
-                //setPopularRecyclerView(activity);
+                setPopularRecyclerView(activity);
                 setHomeViewModel(activity);
             }
 
@@ -97,7 +98,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private void setRecyclerView(final Activity activity) {
         recyclerView = activity.findViewById(R.id.home_recycler_view);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemListener listener = this;
         adapter = new FilmCardAdapter(listener, activity);
         recyclerView.setAdapter(adapter);
@@ -107,7 +108,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         popularRecyclerView = activity.findViewById(R.id.popular_recyclerView);
         System.out.println(popularRecyclerView);
 
-        popularRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+        //popularRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemListener listener = this;
         popularAdapter = new FilmCardAdapter(listener, activity);
         popularRecyclerView.setAdapter(popularAdapter);

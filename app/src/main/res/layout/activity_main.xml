@@ -41,7 +41,8 @@
         app:menu="@menu/drawer_menu"
         android:background="#546e7a"
         app:itemTextColor="@color/white"
-        app:tint="@color/white">
+        app:tint="@color/white"
+        app:itemIconTint="@color/white">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
