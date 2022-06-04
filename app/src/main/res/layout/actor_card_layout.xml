@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/card_actor_character_textView"
             android:text="Character"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="@color/white"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </com.google.android.material.card.MaterialCardView>

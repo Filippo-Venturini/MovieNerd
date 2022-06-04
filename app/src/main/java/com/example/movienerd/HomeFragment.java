@@ -40,10 +40,13 @@ public class HomeFragment extends Fragment implements OnItemListener {
     private static final String LOG = "Home-Fragment";
 
     private FilmCardAdapter adapter;
+    private FilmCardAdapter popularAdapter;
     private RecyclerView recyclerView;
+    private RecyclerView popularRecyclerView;
 
     private  RequestQueue requestQueue;
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
+    private final static  String POPULAR_FILM_REQUEST_TAG = "POPULAR_FILM_REQUEST";
 
     private ListViewModel listViewModel;
     private User currentUser;
@@ -64,9 +67,11 @@ public class HomeFragment extends Fragment implements OnItemListener {
             if(!activity.homeAPIRequestDone){
                 requestQueue = Volley.newRequestQueue(activity);
                 this.sendVolleyRequest(activity);
+                //this.sendPopularVolleyRequest(activity);
                 activity.homeAPIRequestDone = true;
             }else{
                 setRecyclerView(activity);
+                //setPopularRecyclerView(activity);
                 setHomeViewModel(activity);
             }
 
@@ -98,6 +103,16 @@ public class HomeFragment extends Fragment implements OnItemListener {
         recyclerView.setAdapter(adapter);
     }
 
+    private void setPopularRecyclerView(final Activity activity){
+        popularRecyclerView = activity.findViewById(R.id.popular_recyclerView);
+        System.out.println(popularRecyclerView);
+
+        popularRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+        final OnItemListener listener = this;
+        popularAdapter = new FilmCardAdapter(listener, activity);
+        popularRecyclerView.setAdapter(popularAdapter);
+    }
+
     private void setHomeViewModel(Activity activity){
         listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
@@ -116,6 +131,13 @@ public class HomeFragment extends Fragment implements OnItemListener {
             @Override
             public void onChanged(List<Film> films) {
                 adapter.setData(films);
+            }
+        });
+
+        listViewModel.getPopularFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
+            @Override
+            public void onChanged(List<Film> films) {
+                popularAdapter.setData(films);
             }
         });
     }
@@ -154,9 +176,44 @@ public class HomeFragment extends Fragment implements OnItemListener {
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void sendPopularVolleyRequest(Activity activity){
+        String url = "https://imdb-api.com/en/API/MostPopularMovies/k_4ej6zo7h";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    setPopularRecyclerView(activity);
+                    setHomeViewModel(activity);
+
+                    JSONArray films = response.getJSONArray("items"); //Prende l'array di film
+                    listViewModel.clearPopularFilms();
+
+                    for(int i=0; i < 20; i++){
+                        listViewModel.addPopularFilm(new Film((String) films.getJSONObject(i).get("id"),
+                                (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image"),
+                                (String) films.getJSONObject(i).get("year"), (String) films.getJSONObject(i).get("imDbRating")));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("HOME-FRAGMENT", error.toString());
+            }
+        });
+
+        jsonObjectRequest.setTag(POPULAR_FILM_REQUEST_TAG);
+        requestQueue.add(jsonObjectRequest);
+    }
+
     @Override
     public void onItemClick(int position) {
         Activity activity = getActivity();
+        System.out.println("Activity:" + activity);
         if(activity != null){
             Utilities.insertFragment((AppCompatActivity) activity, new DetailsFragment(adapter.getFilmSelected(position)), DetailsFragment.class.getSimpleName());
             listViewModel.setFilmSelected(adapter.getFilmSelected(position));

@@ -23,6 +23,7 @@ import java.util.List;
 public class ListViewModel extends AndroidViewModel {
     private final MutableLiveData<Film> filmSelected = new MutableLiveData<>();
     public  MutableLiveData<List<Film>> homeFilms;
+    public  MutableLiveData<List<Film>> popularFilms;
     public  MutableLiveData<List<Film>> searchedFilms;
     private  final FilmRepository repository;
     private LiveData<List<UserFilmCrossRef>> watchListId;
@@ -56,6 +57,13 @@ public class ListViewModel extends AndroidViewModel {
             homeFilms = new MutableLiveData<>();
         }
         return homeFilms;
+    }
+
+    public LiveData<List<Film>> getPopularFilms(){
+        if(popularFilms == null){
+            popularFilms = new MutableLiveData<>();
+        }
+        return popularFilms;
     }
 
     public LiveData<List<Film>> getSearchedFilms(){
@@ -106,6 +114,15 @@ public class ListViewModel extends AndroidViewModel {
         homeFilms.setValue(list);
     }
 
+    public void addPopularFilm(Film film){
+        ArrayList<Film> list = new ArrayList<>();
+        if(popularFilms.getValue() != null){
+            list.addAll(popularFilms.getValue());
+        }
+        list.add(film);
+        popularFilms.setValue(list);
+    }
+
     public void addSearchedFilm(Film film){
         ArrayList<Film> list = new ArrayList<>();
         if(searchedFilms.getValue() != null){
@@ -118,6 +135,12 @@ public class ListViewModel extends AndroidViewModel {
     public void clearHomeList(){
         if(homeFilms.getValue() != null){
             homeFilms.getValue().clear();
+        }
+    }
+
+    public void clearPopularFilms(){
+        if(popularFilms.getValue() != null){
+            popularFilms.getValue().clear();
         }
     }
 

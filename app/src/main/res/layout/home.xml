@@ -29,6 +29,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         tools:listitem="@layout/film_card_layout" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/popular_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:listitem="@layout/film_card_layout" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="181px"

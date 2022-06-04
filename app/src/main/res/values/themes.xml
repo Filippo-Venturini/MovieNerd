@@ -15,6 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:editTextColor">@android:color/white</item>
     </style>
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>

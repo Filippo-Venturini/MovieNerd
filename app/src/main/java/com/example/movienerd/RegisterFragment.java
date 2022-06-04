@@ -55,10 +55,9 @@ public class RegisterFragment extends Fragment {
                     String passwConf = confirmPasswEdit.getText().toString();
                     if(passw.equals(passwConf)){
                         User user = new User(usernameEdit.getText().toString(), passw);
+                        user.setIsLogged(true);
                         listViewModel.addUser(user);
                         Toast.makeText(activity, "Registered", Toast.LENGTH_SHORT).show();
-                        user.setIsLogged(true);
-                        listViewModel.updateUser(user);
                         TextView txtLogin = activity.findViewById(R.id.loginLogout_textView);
                         TextView txtUsername = activity.findViewById(R.id.username_TextView);
                         txtLogin.setText("Logout");

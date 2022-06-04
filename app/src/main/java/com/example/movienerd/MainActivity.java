@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ListViewModel listViewModel;
     private User currentUser;
     private boolean isInHome = true;
+    public List<Film> allFilms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     txtLoginLogout.setText("Login");
                 }
+            }
+        });
+
+        listViewModel.getAllFilms().observe((LifecycleOwner) this, new Observer<List<Film>>() {
+            @Override
+            public void onChanged(List<Film> films) {
+                allFilms = films;
             }
         });
 

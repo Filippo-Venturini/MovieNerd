@@ -54,6 +54,8 @@ public class WatchListFragment extends Fragment implements OnItemListener {
             setHasOptionsMenu(true);
             Utilities.setUpToolbar((AppCompatActivity) activity, "WATCH LIST");
 
+            this.allFilms = activity.allFilms;
+
             setRecyclerView(activity);
 
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
@@ -61,7 +63,6 @@ public class WatchListFragment extends Fragment implements OnItemListener {
             listViewModel.getAllFilms().observe((LifecycleOwner) activity, new Observer<List<Film>>() {
                 @Override
                 public void onChanged(List<Film> films) {
-                    System.out.println("ALL FILMS");
                     allFilms = films;
                 }
             });
@@ -81,9 +82,6 @@ public class WatchListFragment extends Fragment implements OnItemListener {
             listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
                 @Override
                 public void onChanged(List<UserFilmCrossRef> watchListId) {
-                    if(allFilms == null){
-                        return; //TODO RICORDARSI BUG WATCHLIST
-                    }
                     List<Film> watchList = new LinkedList<>();
                     for(UserFilmCrossRef userWithFilms:watchListId){
                         if(userWithFilms.getUser_id() == currentUser.getUser_id()){

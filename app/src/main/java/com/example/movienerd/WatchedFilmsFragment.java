@@ -47,6 +47,8 @@ public class WatchedFilmsFragment extends Fragment implements OnItemListener{
         if(activity != null){
             setHasOptionsMenu(true);
 
+            this.allFilms = activity.allFilms;
+
             Utilities.setUpToolbar((AppCompatActivity) activity, "WATCHED MOVIES");
 
             setRecyclerView(activity);

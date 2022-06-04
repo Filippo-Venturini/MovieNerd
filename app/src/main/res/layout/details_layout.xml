@@ -14,7 +14,8 @@
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="#ef233c"/>
+        app:backgroundTint="#ef233c"
+        app:tint="@color/white"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fab_watchList"
@@ -25,7 +26,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/fab_watched"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="#ef233c"/>
+        app:backgroundTint="#ef233c"
+        app:tint="@color/white"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fab_watched"
@@ -36,8 +38,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/fab_add"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="#ef233c"/>
-
+        app:backgroundTint="#ef233c"
+        app:tint="@color/white"/>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -195,7 +197,8 @@
                 android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/textView3"
