@@ -10,24 +10,14 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/winning"/>
-
-    <TextView
-        android:id="@+id/profile_usernameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:text="User"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:src="@drawable/achievements"
+        android:layout_marginTop="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/achievement_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         tools:listitem="@layout/achievement_card_layout"
         />

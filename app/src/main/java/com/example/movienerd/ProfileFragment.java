@@ -57,8 +57,6 @@ public class ProfileFragment extends Fragment {
                     for(User user : users){
                         if(user.getIsLogged()){
                             currentUser = user;
-                            TextView txtName = view.findViewById(R.id.profile_usernameTextView);
-                            txtName.setText(currentUser.getUsername());
                         }
                     }
                 }
