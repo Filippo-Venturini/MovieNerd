@@ -23,11 +23,11 @@ public class FilmCardAdapter extends RecyclerView.Adapter<FilmCardViewHolder> {
 
     private Activity activity;
 
-    private  OnItemListener listener;
+    private  OnItemClickListener listener;
 
     private List<Film> filmListNotFiltered = new ArrayList<>();
 
-    public FilmCardAdapter(OnItemListener listener, Activity activity){
+    public FilmCardAdapter(OnItemClickListener listener, Activity activity){
         this.listener = listener;
         this.activity = activity;
     }
@@ -41,14 +41,7 @@ public class FilmCardAdapter extends RecyclerView.Adapter<FilmCardViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull FilmCardViewHolder holder, int position) {
-        Film current  = filmList.get(position);
-
-        Glide.with(activity)
-                .load(current.getUrlPosterImg())
-                .into(holder.filmImage);
-
-        holder.title.setText(current.getTitle());
-        holder.year.setText(current.getYear());
+        holder.bind(filmList.get(position), listener);
     }
 
     public void setData(List<Film> list){
@@ -58,10 +51,6 @@ public class FilmCardAdapter extends RecyclerView.Adapter<FilmCardViewHolder> {
         final FilmDiffCallback diffCallback = new FilmDiffCallback(this.filmList, list);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         diffResult.dispatchUpdatesTo(this);
-    }
-
-    public Film getFilmSelected(int position){
-        return filmList.get(position);
     }
 
     @Override

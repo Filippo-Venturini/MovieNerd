@@ -20,7 +20,7 @@ public class Utilities {
 
     static void insertFragment(AppCompatActivity activity, Fragment fragment, String tag){
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-
+        Log.d("ZIO", tag);
         transaction.replace(R.id.fragment_container_view, fragment, tag);
 
         if(!(fragment instanceof HomeFragment)){

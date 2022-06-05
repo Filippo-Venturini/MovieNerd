@@ -1,6 +1,7 @@
 package com.example.movienerd;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +42,7 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity != null){
+            Log.d("DIO2","OnViewCreated");
             Utilities.setUpToolbar(activity, "REGISTER");
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 

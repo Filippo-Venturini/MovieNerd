@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.movienerd.FilmRecyclerView.FilmCardAdapter;
+import com.example.movienerd.FilmRecyclerView.OnItemClickListener;
 import com.example.movienerd.FilmRecyclerView.OnItemListener;
 import com.example.movienerd.ViewModels.ListViewModel;
 
@@ -35,7 +36,7 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements OnItemListener {
+public class HomeFragment extends Fragment implements OnItemClickListener {
 
     private static final String LOG = "Home-Fragment";
 
@@ -61,12 +62,14 @@ public class HomeFragment extends Fragment implements OnItemListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
         super.onViewCreated(view, savedInstance);
         final MainActivity activity = (MainActivity) getActivity();
+        System.out.println("Activity"+activity);
         if(activity != null){
             Log.d("Ciao", "Sono nella onviewCreated");
             Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
-            activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
+            //activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
             if(!activity.homeAPIRequestDone){
                 requestQueue = Volley.newRequestQueue(activity);
+                Log.d("Dio", "call API");
                 this.sendVolleyRequest(activity);
                 this.sendPopularVolleyRequest(activity);
                 activity.homeAPIRequestDone = true;
@@ -99,7 +102,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         recyclerView = activity.findViewById(R.id.home_recycler_view);
 
         //recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        final OnItemListener listener = this;
+        final OnItemClickListener listener = this;
         adapter = new FilmCardAdapter(listener, activity);
         recyclerView.setAdapter(adapter);
     }
@@ -109,7 +112,7 @@ public class HomeFragment extends Fragment implements OnItemListener {
         System.out.println(popularRecyclerView);
 
         //popularRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        final OnItemListener listener = this;
+        final OnItemClickListener listener = this;
         popularAdapter = new FilmCardAdapter(listener, activity);
         popularRecyclerView.setAdapter(popularAdapter);
     }
@@ -212,12 +215,11 @@ public class HomeFragment extends Fragment implements OnItemListener {
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(Film film) {
         Activity activity = getActivity();
-        System.out.println("Activity:" + activity);
         if(activity != null){
-            Utilities.insertFragment((AppCompatActivity) activity, new DetailsFragment(adapter.getFilmSelected(position)), DetailsFragment.class.getSimpleName());
-            listViewModel.setFilmSelected(adapter.getFilmSelected(position));
+            Utilities.insertFragment((AppCompatActivity) activity, new DetailsFragment(film), DetailsFragment.class.getSimpleName());
+            listViewModel.setFilmSelected(film);
         }
     }
 }
