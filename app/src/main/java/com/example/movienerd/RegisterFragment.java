@@ -42,7 +42,7 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity != null){
-            Utilities.setUpToolbar(activity, "REGISTER");
+            Utilities.setUpToolbar(activity, "SIGN UP");
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
             this.usernameEdit = view.findViewById(R.id.registerUser_editText);
@@ -54,7 +54,7 @@ public class RegisterFragment extends Fragment {
                 public void onClick(View view) {
                     String passw = passwordEdit.getText().toString();
                     String passwConf = confirmPasswEdit.getText().toString();
-                    if(passw.equals(passwConf)){
+                    if(passw.equals(passwConf) && !passw.equals("")){
                         User user = new User(usernameEdit.getText().toString(), passw);
                         user.setIsLogged(true);
                         listViewModel.addUser(user);
@@ -65,7 +65,7 @@ public class RegisterFragment extends Fragment {
                         txtUsername.setText(user.getUsername());
                         Utilities.insertFragment(activity, new HomeFragment(), HomeFragment.class.getSimpleName());
                     }else{
-                        Toast.makeText(activity, "The password must be equals.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "The passwords must be equals and not empty.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

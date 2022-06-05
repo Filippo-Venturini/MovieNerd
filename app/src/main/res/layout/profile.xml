@@ -7,6 +7,11 @@
     android:background="#29434e"
     android:layout_marginTop="?attr/actionBarSize">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/winning"/>
+
     <TextView
         android:id="@+id/profile_usernameTextView"
         android:layout_width="wrap_content"

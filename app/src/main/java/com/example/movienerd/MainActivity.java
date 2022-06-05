@@ -22,9 +22,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.movienerd.ViewModels.ListViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,14 +39,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean homeAPIRequestDone = false;
     private ListViewModel listViewModel;
     private User currentUser;
-    private boolean isInHome = true;
+    public boolean isInHome = true;
     public List<Film> allFilms;
+    private boolean firstGuest = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
+
+        Activity activity = this;
 
         listViewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(ListViewModel.class);
 
@@ -62,8 +67,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 }
                 if(logged){
+                    Glide.with(activity)
+                            .load(getImage("man"))
+                            .into((ImageView) findViewById(R.id.user_profileImageView));
                     txtLoginLogout.setText("Logout");
                 }else{
+                    if (!firstGuest) {
+                        Glide.with(activity)
+                                .load(getImage("user"))
+                                .into((ImageView) findViewById(R.id.user_profileImageView));
+                    }else{
+                        firstGuest = false;
+                    }
+
                     txtLoginLogout.setText("Login");
                 }
             }
@@ -87,8 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
-        Activity activity = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -123,8 +137,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        Log.d("PORCO","CREATE ACTIVITY");
         Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
+    }
+
+    private int getImage(String imageName) {
+        int drawableResourceId = this.getResources().getIdentifier(imageName, "drawable", this.getPackageName());
+        return drawableResourceId;
     }
 
     @Override

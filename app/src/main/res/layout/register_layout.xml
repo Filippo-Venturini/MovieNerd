@@ -6,43 +6,57 @@
     android:background="#29434e"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/registration"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"/>
+
     <EditText
         android:id="@+id/registerUser_editText"
         android:layout_width="200dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="50dp"
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
         android:background="@color/white"
-        android:hint="Username" />
+        android:hint="Username"
+        android:textColor="@color/black"
+        android:textColorHint="#7F8487"
+        android:inputType="textCapSentences"/>
 
     <EditText
         android:id="@+id/registerPassword_editText"
         android:layout_width="200dp"
         android:layout_height="35dp"
         android:background="@color/white"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:textColorHint="#7F8487"/>
 
     <EditText
         android:id="@+id/confirmPassword_editText"
         android:layout_width="200dp"
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:background="@color/white"
         android:hint="Confirm Password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPassword_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/registerPassword_editText"
+        android:textColor="@color/black"
+        android:textColorHint="#7F8487" />
 
     <Button
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="130dp"
         android:backgroundTint="#ef233c"
         android:text="REGISTER" />
 

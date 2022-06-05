@@ -81,6 +81,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
             view.findViewById(R.id.login_textView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    activity.isInHome = false;
                     Utilities.insertFragment((AppCompatActivity) activity, new RegisterFragment(), RegisterFragment.class.getSimpleName());
                 }
             });
@@ -107,7 +108,6 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
 
     private void setPopularRecyclerView(final Activity activity){
         popularRecyclerView = activity.findViewById(R.id.popular_recyclerView);
-        System.out.println(popularRecyclerView);
 
         final OnItemClickListener listener = this;
         popularAdapter = new FilmCardAdapter(listener, activity);
