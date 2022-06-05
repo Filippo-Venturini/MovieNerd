@@ -128,6 +128,9 @@ public class DetailsFragment extends Fragment {
             listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
                 @Override
                 public void onChanged(List<UserFilmCrossRef> usersFilms) {
+                    if(currentUser == null){
+                        return;
+                    }
                     currentWatchListIds = new LinkedList<>();
                     for(UserFilmCrossRef userFilm : usersFilms){
                         if(userFilm.getUser_id() == currentUser.getUser_id()){
@@ -140,6 +143,9 @@ public class DetailsFragment extends Fragment {
             listViewModel.getWatchedFilms().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
                 @Override
                 public void onChanged(List<UserFilmCrossRef> usersFilms) {
+                    if(currentUser == null){
+                        return;
+                    }
                     currentWatchedIds = new LinkedList<>();
                     for(UserFilmCrossRef userFilm : usersFilms){
                         if(userFilm.getUser_id() == currentUser.getUser_id()){

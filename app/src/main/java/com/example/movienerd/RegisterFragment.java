@@ -42,7 +42,6 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity != null){
-            Log.d("DIO2","OnViewCreated");
             Utilities.setUpToolbar(activity, "REGISTER");
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 

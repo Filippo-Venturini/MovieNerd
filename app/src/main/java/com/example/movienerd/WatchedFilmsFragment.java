@@ -33,6 +33,7 @@ public class WatchedFilmsFragment extends Fragment implements OnItemListener{
     private SimpleCardAdapter adapter;
     private ListViewModel listViewModel;
     private List<Film> allFilms;
+    private User currentUser;
 
     @Nullable
     @Override
@@ -62,13 +63,25 @@ public class WatchedFilmsFragment extends Fragment implements OnItemListener{
                 }
             });
 
+            listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {
+                @Override
+                public void onChanged(List<User> users) {
+                    for(User user : users){
+                        if(user.getIsLogged()){
+                            currentUser = user;
+                            listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
+                        }
+                    }
+                }
+            });
+
             listViewModel.getWatchedFilms().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
                 @Override
                 public void onChanged(List<UserFilmCrossRef> watchedFilmsId) {
                     List<Film> watchedFilms = new LinkedList<>();
                     for(UserFilmCrossRef userWithFilms:watchedFilmsId){
                         System.out.println(userWithFilms.getFilm_id());
-                        if(userWithFilms.getUser_id() == 1){
+                        if(userWithFilms.getUser_id() == currentUser.getUser_id()){
                             for(Film current : allFilms){
                                 if(current.getFilm_id().equals(userWithFilms.getFilm_id())){
                                     watchedFilms.add(current);

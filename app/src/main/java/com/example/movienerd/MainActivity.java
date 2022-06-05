@@ -165,6 +165,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isInHome = false;
                 break;
             case R.id.nav_home:
+                if(isInHome){
+                    break;
+                }
                 Utilities.insertFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
                 isInHome = true;
                 break;

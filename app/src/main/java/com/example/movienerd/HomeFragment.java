@@ -66,10 +66,9 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         if(activity != null){
             Log.d("Ciao", "Sono nella onviewCreated");
             Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
-            //activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
+            activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
             if(!activity.homeAPIRequestDone){
                 requestQueue = Volley.newRequestQueue(activity);
-                Log.d("Dio", "call API");
                 this.sendVolleyRequest(activity);
                 this.sendPopularVolleyRequest(activity);
                 activity.homeAPIRequestDone = true;
@@ -101,7 +100,6 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
     private void setRecyclerView(final Activity activity) {
         recyclerView = activity.findViewById(R.id.home_recycler_view);
 
-        //recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemClickListener listener = this;
         adapter = new FilmCardAdapter(listener, activity);
         recyclerView.setAdapter(adapter);
@@ -111,7 +109,6 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
         popularRecyclerView = activity.findViewById(R.id.popular_recyclerView);
         System.out.println(popularRecyclerView);
 
-        //popularRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         final OnItemClickListener listener = this;
         popularAdapter = new FilmCardAdapter(listener, activity);
         popularRecyclerView.setAdapter(popularAdapter);

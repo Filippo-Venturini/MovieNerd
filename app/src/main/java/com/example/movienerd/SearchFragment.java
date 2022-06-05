@@ -1,6 +1,7 @@
 package com.example.movienerd;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ public class SearchFragment extends Fragment  implements OnItemListener {
     private SearchedFilmAdapter adapter;
     private ListViewModel listViewModel;
     private String searchExpression;
+    private ProgressDialog nDialog;
 
     private RequestQueue requestQueue;
     private final static  String SEARCH_FILM_REQUEST_TAG = "SEARCH_FILM_REQUEST";
@@ -64,6 +66,12 @@ public class SearchFragment extends Fragment  implements OnItemListener {
         if(activity != null){
             requestQueue = Volley.newRequestQueue(activity);
             this.sendVolleyRequest(activity);
+            nDialog = new ProgressDialog(activity);
+            nDialog.setMessage("Loading..");
+            nDialog.setTitle("Get Data");
+            nDialog.setIndeterminate(false);
+            nDialog.setCancelable(true);
+            nDialog.show();
             setRecyclerView(activity);
         }else{
             Log.e(LOG, "Activity is null");
@@ -108,6 +116,8 @@ public class SearchFragment extends Fragment  implements OnItemListener {
                                 (String) searchedFilms.getJSONObject(i).get("title"),(String) searchedFilms.getJSONObject(i).get("image"),
                                 year, "8.9"));
                     }
+                    nDialog.dismiss();
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
