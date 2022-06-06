@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/film_imageView"
-            android:layout_width="128dp"
-            android:layout_height="176dp"
+            android:layout_width="108dp"
+            android:layout_height="156dp"
             android:background="@android:color/transparent"
             android:contentDescription="film"
             android:scaleType="centerCrop"

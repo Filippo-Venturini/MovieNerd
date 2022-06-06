@@ -62,11 +62,9 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
         super.onViewCreated(view, savedInstance);
         final MainActivity activity = (MainActivity) getActivity();
-        System.out.println("Activity"+activity);
         if(activity != null){
-            Log.d("Ciao", "Sono nella onviewCreated");
             Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
-            activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
+            //activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
             if(!activity.homeAPIRequestDone){
                 requestQueue = Volley.newRequestQueue(activity);
                 this.sendVolleyRequest(activity);

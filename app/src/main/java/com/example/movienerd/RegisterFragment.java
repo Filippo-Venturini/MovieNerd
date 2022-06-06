@@ -40,9 +40,10 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
             Utilities.setUpToolbar(activity, "SIGN UP");
+            activity.currentFragment = "register";
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
             this.usernameEdit = view.findViewById(R.id.registerUser_editText);

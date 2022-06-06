@@ -40,9 +40,10 @@ public class LoginFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
             Utilities.setUpToolbar(activity, "LOGIN");
+            activity.currentFragment = "login";
             listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
 
             listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {

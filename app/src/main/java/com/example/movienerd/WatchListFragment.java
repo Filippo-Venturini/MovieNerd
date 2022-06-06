@@ -74,6 +74,9 @@ public class WatchListFragment extends Fragment implements OnItemListener {
                         if(user.getIsLogged()){
                             currentUser = user;
                             listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
+                            listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),2));
+                            listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),3));
+                            listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),4));
                         }
                     }
                 }

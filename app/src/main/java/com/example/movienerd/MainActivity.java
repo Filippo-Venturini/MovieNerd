@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean isInHome = true;
     public List<Film> allFilms;
     private boolean firstGuest = true;
+    public String currentFragment = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<Achievement> achievements) {
                 if(achievements.size() == 0){
-                    listViewModel.addAchievement(new Achievement("watch","A Good Start", "Add your first film to your watchlist"));
-                    listViewModel.addAchievement(new Achievement("imdb_logo","Beginner", "Watch your first movie"));
-                    listViewModel.addAchievement(new Achievement("imdb_logo","Let me take a look", "Look at the details of a movie"));
-                    listViewModel.addAchievement(new Achievement("imdb_logo","Advanced", "Watch 3 movies"));
+                    listViewModel.addAchievement(new Achievement("watch","A Good Start", "Add your first film to watchlist"));
+                    listViewModel.addAchievement(new Achievement("popcorn","Beginner", "Watch your first movie"));
+                    listViewModel.addAchievement(new Achievement("movietickets","Let me take a look", "Look at the details of a movie"));
+                    listViewModel.addAchievement(new Achievement("explorer","Curious", "Search your first movie"));
                 }
             }
         });
@@ -176,6 +177,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_profile:
+                if(currentFragment.equals("profile")){
+                    break;
+                }
+                currentFragment = "profile";
                 if(!isLogged()){
                     Toast.makeText(this, "Login is required", Toast.LENGTH_SHORT).show();
                     break;
@@ -191,6 +196,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isInHome = true;
                 break;
             case R.id.nav_watchList:
+                if(currentFragment.equals("watchlist")){
+                    break;
+                }
+                currentFragment = "watchlist";
                 if(!isLogged()){
                     Toast.makeText(this, "Login is required", Toast.LENGTH_SHORT).show();
                     break;
@@ -199,6 +208,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isInHome = false;
                 break;
             case R.id.nav_watchedMovies:
+                if(currentFragment.equals("watched")){
+                    break;
+                }
+                currentFragment = "watched";
                 if(!isLogged()){
                     Toast.makeText(this, "Login is required", Toast.LENGTH_SHORT).show();
                     break;
