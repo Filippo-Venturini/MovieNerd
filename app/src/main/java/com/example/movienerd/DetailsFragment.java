@@ -89,13 +89,15 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final Activity activity = getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
 
         if(activity != null){
             setHasOptionsMenu(true);
             requestQueue = Volley.newRequestQueue(activity);
             sendVolleyRequest(activity, view);
             Utilities.setUpToolbar((AppCompatActivity) activity, "FILM DETAILS");
+            activity.currentFragment="details";
+            activity.isInHome = false;
 
             titleTextView = view.findViewById(R.id.title_textView);
             voteTextView = view.findViewById(R.id.vote_textView);

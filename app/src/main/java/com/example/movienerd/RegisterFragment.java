@@ -30,6 +30,7 @@ public class RegisterFragment extends Fragment {
     private EditText usernameEdit;
     private EditText passwordEdit;
     private EditText confirmPasswEdit;
+    private User currentUser;
 
     @Nullable
     @Override
@@ -50,12 +51,25 @@ public class RegisterFragment extends Fragment {
             this.passwordEdit = view.findViewById(R.id.registerPassword_editText);
             this.confirmPasswEdit = view.findViewById(R.id.confirmPassword_editText);
 
+            listViewModel.getAllUsers().observe((LifecycleOwner) activity, new Observer<List<User>>() {
+                @Override
+                public void onChanged(List<User> users) {
+                    for(User user : users){
+                        if(user.getIsLogged()){
+                            currentUser = user;
+                        }
+                    }
+                }
+            });
+
             view.findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String passw = passwordEdit.getText().toString();
                     String passwConf = confirmPasswEdit.getText().toString();
                     if(passw.equals(passwConf) && !passw.equals("")){
+                        currentUser.setIsLogged(false);
+                        listViewModel.updateUser(currentUser);
                         User user = new User(usernameEdit.getText().toString(), passw);
                         user.setIsLogged(true);
                         listViewModel.addUser(user);
