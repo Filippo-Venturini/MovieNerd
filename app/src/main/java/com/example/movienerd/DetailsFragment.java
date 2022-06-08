@@ -123,6 +123,11 @@ public class DetailsFragment extends Fragment {
                     for(User user : users){
                         if(user.getIsLogged()){
                             currentUser = user;
+                            if(currentUser.isFirstDetails()){
+                                currentUser.setFirstDetails(false);
+                                listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),4));
+                                listViewModel.updateUser(currentUser);
+                            }
                         }
                     }
                 }
@@ -205,6 +210,10 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
+                    if(currentUser != null && currentUser.isFirstWatchList()){
+                        currentUser.setFirstWatchList(false);
+                        listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
+                    }
                     if(!currentWatchedIds.contains(currentFilm.getFilm_id()) && !currentWatchListIds.contains(currentFilm.getFilm_id())){
                         listViewModel.addFilm(currentFilm);
                     }
@@ -218,9 +227,6 @@ public class DetailsFragment extends Fragment {
                     }else{
                         listViewModel.addUserFilm(currentRef);
                     }
-                    if(currentUser.getFilmInWatchlist() == 1){
-                        listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
-                    }
                 }
             });
 
@@ -228,6 +234,10 @@ public class DetailsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to Watched Movies", Toast.LENGTH_SHORT).show();
+                    if(currentUser != null && currentUser.isFirstWatchedFilm()){
+                        currentUser.setFirstWatchedFilm(false);
+                        listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),2));
+                    }
                     UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());
                     if(!currentWatchedIds.contains(currentFilm.getFilm_id()) && !currentWatchListIds.contains(currentFilm.getFilm_id())){
                         listViewModel.addFilm(currentFilm);

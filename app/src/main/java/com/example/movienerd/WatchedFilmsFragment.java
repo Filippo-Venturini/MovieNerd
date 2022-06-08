@@ -69,7 +69,6 @@ public class WatchedFilmsFragment extends Fragment implements OnItemListener{
                     for(User user : users){
                         if(user.getIsLogged()){
                             currentUser = user;
-                            listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
                         }
                     }
                 }

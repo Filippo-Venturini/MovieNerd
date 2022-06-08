@@ -27,6 +27,14 @@ public class User {
     @ColumnInfo(name = "filmWatched")
     private int filmWatched;
 
+    private boolean firstWatchList = true;
+
+    private boolean firstWatchedFilm = true;
+
+    private boolean firstSearch = true;
+
+    private boolean firstDetails = true;
+
     public void toggleWatchListCounter(boolean increment){
         if(increment){
             this.filmInWatchlist++;
@@ -89,6 +97,38 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isFirstWatchList() {
+        return firstWatchList;
+    }
+
+    public void setFirstWatchList(boolean firstWatchList) {
+        this.firstWatchList = firstWatchList;
+    }
+
+    public boolean isFirstWatchedFilm() {
+        return firstWatchedFilm;
+    }
+
+    public void setFirstWatchedFilm(boolean firstWatchedFilm) {
+        this.firstWatchedFilm = firstWatchedFilm;
+    }
+
+    public boolean isFirstSearch() {
+        return firstSearch;
+    }
+
+    public void setFirstSearch(boolean firstSearch) {
+        this.firstSearch = firstSearch;
+    }
+
+    public boolean isFirstDetails() {
+        return firstDetails;
+    }
+
+    public void setFirstDetails(boolean firstDetails) {
+        this.firstDetails = firstDetails;
     }
 
     public User(){};

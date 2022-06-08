@@ -68,8 +68,10 @@ public class RegisterFragment extends Fragment {
                     String passw = passwordEdit.getText().toString();
                     String passwConf = confirmPasswEdit.getText().toString();
                     if(passw.equals(passwConf) && !passw.equals("")){
-                        currentUser.setIsLogged(false);
-                        listViewModel.updateUser(currentUser);
+                        if(currentUser != null){
+                            currentUser.setIsLogged(false);
+                            listViewModel.updateUser(currentUser);
+                        }
                         User user = new User(usernameEdit.getText().toString(), passw);
                         user.setIsLogged(true);
                         listViewModel.addUser(user);

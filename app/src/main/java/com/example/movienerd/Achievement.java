@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName="achievement")
 public class Achievement {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "achievement_id")
     @NonNull
     private int achievement_id;
@@ -21,7 +21,8 @@ public class Achievement {
     @ColumnInfo(name = "achievement_description")
     private String description;
 
-    public Achievement(String imageName, String title, String description){
+    public Achievement(int achievement_id, String imageName, String title, String description){
+        this.achievement_id = achievement_id;
         this.imageName = imageName;
         this.title = title;
         this.description = description;

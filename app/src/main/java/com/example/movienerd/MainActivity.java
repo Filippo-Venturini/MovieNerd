@@ -98,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<Achievement> achievements) {
                 if(achievements.size() == 0){
-                    listViewModel.addAchievement(new Achievement("watch","A Good Start", "Add your first film to watchlist"));
-                    listViewModel.addAchievement(new Achievement("popcorn","Beginner", "Watch your first movie"));
-                    listViewModel.addAchievement(new Achievement("movietickets","Let me take a look", "Look at the details of a movie"));
-                    listViewModel.addAchievement(new Achievement("explorer","Curious", "Search your first movie"));
+                    listViewModel.addAchievement(new Achievement(1,"watch","A Good Start", "Add your first film to watchlist"));
+                    listViewModel.addAchievement(new Achievement(2,"popcorn","Beginner", "Watch your first movie"));
+                    listViewModel.addAchievement(new Achievement(3,"movietickets","Let me take a look", "Look at the details of a movie"));
+                    listViewModel.addAchievement(new Achievement(4,"explorer","Curious", "Search your first movie"));
                 }
             }
         });
@@ -128,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }else{
                     currentUser.setIsLogged(false);
                     listViewModel.updateUser(currentUser);
+                    Glide.with(activity)
+                            .load(getImage("user"))
+                            .into((ImageView) findViewById(R.id.user_profileImageView));
                     Toast.makeText(activity, "Logged out", Toast.LENGTH_SHORT).show();
                     TextView txtUsername = findViewById(R.id.username_TextView);
                     txtUsername.setText("Guest");
