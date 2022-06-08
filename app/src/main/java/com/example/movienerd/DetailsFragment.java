@@ -123,15 +123,18 @@ public class DetailsFragment extends Fragment {
                     for(User user : users){
                         if(user.getIsLogged()){
                             currentUser = user;
-                            if(currentUser.isFirstDetails()){
-                                currentUser.setFirstDetails(false);
-                                listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),4));
-                                listViewModel.updateUser(currentUser);
-                            }
                         }
                     }
                 }
             });
+
+
+            if(currentUser != null && currentUser.isFirstDetails()){
+                currentUser.setFirstDetails(false);
+                Toast.makeText(activity, "Achievement unlocked!", Toast.LENGTH_SHORT).show();
+                listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),3));
+                listViewModel.updateUser(currentUser);
+            }
 
             listViewModel.getWatchList().observe((LifecycleOwner) activity, new Observer<List<UserFilmCrossRef>>() {
                 @Override
@@ -211,6 +214,7 @@ public class DetailsFragment extends Fragment {
                 public void onClick(View view) {
                     Toast.makeText(activity, "Added to WatchList", Toast.LENGTH_SHORT).show();
                     if(currentUser != null && currentUser.isFirstWatchList()){
+                        Toast.makeText(activity, "Achievement unlocked!", Toast.LENGTH_SHORT).show();
                         currentUser.setFirstWatchList(false);
                         listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),1));
                     }
@@ -236,6 +240,7 @@ public class DetailsFragment extends Fragment {
                     Toast.makeText(activity, "Added to Watched Movies", Toast.LENGTH_SHORT).show();
                     if(currentUser != null && currentUser.isFirstWatchedFilm()){
                         currentUser.setFirstWatchedFilm(false);
+                        Toast.makeText(activity, "Achievement unlocked!", Toast.LENGTH_SHORT).show();
                         listViewModel.addUserAchievement(new UserAchievementCrossRef(currentUser.getUser_id(),2));
                     }
                     UserFilmCrossRef currentRef = new UserFilmCrossRef(currentUser.getUser_id(),currentFilm.getFilm_id());

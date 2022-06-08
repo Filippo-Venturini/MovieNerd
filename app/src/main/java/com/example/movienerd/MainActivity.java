@@ -38,6 +38,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     public boolean homeAPIRequestDone = false;
+    public boolean dataReceived = false;
     private ListViewModel listViewModel;
     private User currentUser;
     public boolean isInHome = true;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(achievements.size() == 0){
                     listViewModel.addAchievement(new Achievement(1,"watch","A Good Start", "Add your first film to watchlist"));
                     listViewModel.addAchievement(new Achievement(2,"popcorn","Beginner", "Watch your first movie"));
-                    listViewModel.addAchievement(new Achievement(3,"movietickets","Let me take a look", "Look at the details of a movie"));
+                    listViewModel.addAchievement(new Achievement(3,"glasses_movie","Let me take a look", "Look at the details of a movie"));
                     listViewModel.addAchievement(new Achievement(4,"explorer","Curious", "Search your first movie"));
                 }
             }

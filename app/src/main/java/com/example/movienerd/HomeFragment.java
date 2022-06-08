@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
     private FilmCardAdapter popularAdapter;
     private RecyclerView recyclerView;
     private RecyclerView popularRecyclerView;
+    private MainActivity mainActivity;
 
     private  RequestQueue requestQueue;
     private final static  String TOP_FILM_REQUEST_TAG = "TOP_FILM_REQUEST";
@@ -61,26 +62,26 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
         super.onViewCreated(view, savedInstance);
-        final MainActivity activity = (MainActivity) getActivity();
-        if(activity != null){
-            Utilities.setUpToolbar((AppCompatActivity) activity, "HOME");
+        mainActivity = (MainActivity) getActivity();
+        if(mainActivity != null){
+            Utilities.setUpToolbar((AppCompatActivity) mainActivity, "HOME");
             //activity.homeAPIRequestDone = true; //DA TOGLIERE!!!!
-            if(!activity.homeAPIRequestDone){
-                requestQueue = Volley.newRequestQueue(activity);
-                this.sendVolleyRequest(activity);
-                this.sendPopularVolleyRequest(activity);
-                activity.homeAPIRequestDone = true;
+            if(!mainActivity.homeAPIRequestDone || !mainActivity.dataReceived){
+                requestQueue = Volley.newRequestQueue(mainActivity);
+                this.sendVolleyRequest(mainActivity);
+                this.sendPopularVolleyRequest(mainActivity);
+                mainActivity.homeAPIRequestDone = true;
             }else{
-                setRecyclerView(activity);
-                setPopularRecyclerView(activity);
-                setHomeViewModel(activity);
+                setRecyclerView(mainActivity);
+                setPopularRecyclerView(mainActivity);
+                setHomeViewModel(mainActivity);
             }
 
             view.findViewById(R.id.login_textView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.isInHome = false;
-                    Utilities.insertFragment((AppCompatActivity) activity, new RegisterFragment(), RegisterFragment.class.getSimpleName());
+                    mainActivity.isInHome = false;
+                    Utilities.insertFragment((AppCompatActivity) mainActivity, new RegisterFragment(), RegisterFragment.class.getSimpleName());
                 }
             });
         }else{
@@ -160,6 +161,8 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
                                 (String) films.getJSONObject(i).get("year"), (String) films.getJSONObject(i).get("imDbRating")));
                     }
 
+                    mainActivity.dataReceived = true;
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -193,6 +196,8 @@ public class HomeFragment extends Fragment implements OnItemClickListener {
                                 (String) films.getJSONObject(i).get("title"),(String) films.getJSONObject(i).get("image"),
                                 (String) films.getJSONObject(i).get("year"), (String) films.getJSONObject(i).get("imDbRating")));
                     }
+
+                    mainActivity.dataReceived = true;
 
                 } catch (JSONException e) {
                     e.printStackTrace();
