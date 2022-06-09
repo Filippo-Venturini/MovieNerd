@@ -64,11 +64,13 @@ public class SearchFragment extends Fragment  implements OnItemListener {
         super.onViewCreated(view, savedInstanceState);
         final MainActivity activity = (MainActivity) getActivity();
         if(activity != null){
+            activity.currentFragment="search";
+            activity.isInHome = false;
             requestQueue = Volley.newRequestQueue(activity);
             this.sendVolleyRequest(activity);
             nDialog = new ProgressDialog(activity);
             nDialog.setMessage("Loading..");
-            nDialog.setTitle("Get Data");
+            //nDialog.setTitle("Get Data");
             nDialog.setIndeterminate(false);
             nDialog.setCancelable(true);
             nDialog.show();
@@ -117,7 +119,6 @@ public class SearchFragment extends Fragment  implements OnItemListener {
                                 year, "8.9"));
                     }
                     nDialog.dismiss();
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

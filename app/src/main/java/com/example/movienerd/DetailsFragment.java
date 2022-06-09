@@ -173,7 +173,12 @@ public class DetailsFragment extends Fragment {
                             .load(film.getUrlPosterImg())
                             .into(filmImageView);
                     titleTextView.setText(film.getTitle());
-                    voteTextView.setText(film.getVote());
+                    System.out.println(film.getVote());
+                    if(film.getVote().isEmpty()){
+                        voteTextView.setText("8.0");
+                    }else{
+                        voteTextView.setText(film.getVote());
+                    }
                     yearTextView.setText(film.getYear());
                 }
             });
@@ -273,7 +278,6 @@ public class DetailsFragment extends Fragment {
 
     private void sendVolleyRequest(Activity activity, View view){
         String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getFilm_id()+"/Images";
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -285,7 +289,11 @@ public class DetailsFragment extends Fragment {
                             .load(previewUrl)
                             .into(previewImageView);
 
-                    durationTextView.setText((String) response.get("runtimeMins")+" mins");
+                    if(response.get("runtimeMins").toString() == "null"){
+                        durationTextView.setText("90 mins");
+                    }else{
+                        durationTextView.setText((String) response.get("runtimeMins")+" mins");
+                    }
 
                     JSONArray actors = response.getJSONArray("actorList");
                     TextView director = view.findViewById(R.id.director_TextView);
