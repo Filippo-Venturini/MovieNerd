@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -173,7 +174,6 @@ public class DetailsFragment extends Fragment {
                             .load(film.getUrlPosterImg())
                             .into(filmImageView);
                     titleTextView.setText(film.getTitle());
-                    System.out.println(film.getVote());
                     if(film.getVote().isEmpty()){
                         voteTextView.setText("8.0");
                     }else{
@@ -277,7 +277,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void sendVolleyRequest(Activity activity, View view){
-        String url = "https://imdb-api.com/en/API/Title/k_4ej6zo7h/"+this.currentFilm.getFilm_id()+"/Images";
+        String url = "https://imdb-api.com/en/API/Title/k_4tiqdg1l/"+this.currentFilm.getFilm_id()+"/Images";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -317,6 +317,11 @@ public class DetailsFragment extends Fragment {
                 Log.d("HOME-FRAGMENT", error.toString());
             }
         });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         jsonObjectRequest.setTag(FILM_REQUEST_TAG);
         requestQueue.add(jsonObjectRequest);

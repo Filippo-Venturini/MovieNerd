@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -91,7 +92,7 @@ public class SearchFragment extends Fragment  implements OnItemListener {
     }
 
     private void sendVolleyRequest(Activity activity){
-        String url = "https://imdb-api.com/en/API/SearchMovie/k_4ej6zo7h/"+this.searchExpression;
+        String url = "https://imdb-api.com/en/API/SearchMovie/k_4tiqdg1l/"+this.searchExpression;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -130,6 +131,11 @@ public class SearchFragment extends Fragment  implements OnItemListener {
                 Log.d("HOME-FRAGMENT", error.toString());
             }
         });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         jsonObjectRequest.setTag(SEARCH_FILM_REQUEST_TAG);
         requestQueue.add(jsonObjectRequest);

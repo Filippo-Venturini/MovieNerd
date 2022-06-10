@@ -79,7 +79,6 @@ public class WatchedFilmsFragment extends Fragment implements OnItemListener{
                 public void onChanged(List<UserFilmCrossRef> watchedFilmsId) {
                     List<Film> watchedFilms = new LinkedList<>();
                     for(UserFilmCrossRef userWithFilms:watchedFilmsId){
-                        System.out.println(userWithFilms.getFilm_id());
                         if(userWithFilms.getUser_id() == currentUser.getUser_id()){
                             for(Film current : allFilms){
                                 if(current.getFilm_id().equals(userWithFilms.getFilm_id())){
