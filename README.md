@@ -1,5 +1,5 @@
 # MovieNerd 🎥🍿
-`MovieNerd` is and Android application that use `IMDB's API` for search movies rating.
+`MovieNerd` is an Android application that uses `IMDB's API` for searching movie ratings.
 
 It's possible to:
 
@@ -9,5 +9,11 @@ It's possible to:
 - manage a watchlist.
 - get some achievements on a personal account.
 
-## Some documentation
+## App Preview
 
+<div style="display: flex; justify-content: space-around;">
+  <img src="img/WatchList.png" alt="Image 1" width="20%" />
+  <img src="img/Movie.png" alt="Image 2" width="20%" />
+  <img src="img/Search.png" alt="Image 2" width="20%" />
+  <img src="img/Achievements.png" alt="Image 2" width="20%" />
+</div>
