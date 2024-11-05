@@ -9,7 +9,7 @@ It's possible to:
 - manage a watchlist.
 - get some achievements on a personal account.
 
-## App Preview
+## App Overview
 
 <div style="display: flex; justify-content: space-around;">
   <img src="img/WatchList.png" alt="Image 1" width="20%" />
