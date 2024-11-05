@@ -1,3 +1,13 @@
-MovieNerd is and Android application that use IMDB's API for search movies rating.
-It's possible to view the Top Rated movies list and the newest movies from IMDB's database.
-It's already possible to manage a watchlist and gain some achievements, creating an account.
+# MovieNerd 🎥🍿
+`MovieNerd` is and Android application that use `IMDB's API` for search movies rating.
+
+It's possible to:
+
+- view the Top Rated IMDB's movies.
+- view the newest IMDB's movies.
+- search for a specific movie in the database.
+- manage a watchlist.
+- get some achievements on a personal account.
+
+## Some documentation
+
